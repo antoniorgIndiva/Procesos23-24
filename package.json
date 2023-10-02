@@ -4,6 +4,7 @@
   "description": "Arquitectura base del proyecto de Procesos de Ingeniería del Software del curso 2023-2024",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "testW": "node_modules\\.bin\\jasmine-node server",
     "test": "./node_modules/.bin/jasmine-node server"
   },
