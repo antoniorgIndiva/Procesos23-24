@@ -18,20 +18,26 @@ function Sistema(){
     }
     this.usuarioActivo=function(nick){
         //return !(this.usuarios[nick]==undefined)
-        return (nick in this.usuarios)
+        let res={activo:false};
+        res.activo=(nick in this.usuarios);
+        return res;
     }
     this.eliminarUsuario=function(nick){
+        let res={nick:-1};
         if (this.usuarios[nick]){
             delete this.usuarios[nick];
+            res.nick=nick;
             console.log("Usuario "+nick+" eliminado");
         }
         else{
             console.log("El usuario no existe");
         }
+        return res;
     }
     this.numeroUsuarios=function(){
         let lista=Object.keys(this.usuarios);
-        return lista.length;
+        let res={num:lista.length};
+        return res;
     }
 }
 

@@ -8,30 +8,39 @@ describe('El sistema...', function() {
    });
   
   it('Inicialmente no hay usuarios', function() {
-    expect(sistema.numeroUsuarios()).toEqual(0);
+    let res=sistema.numeroUsuarios();
+    expect(res.num).toEqual(0);
   });
 
   it('Agregar usuario',function(){
     let num=Object.keys(sistema.usuarios).length;
     expect(num).toEqual(0);
     sistema.agregarUsuario("Pepe");
-    expect(sistema.numeroUsuarios()).toEqual(1);
+    let res=sistema.numeroUsuarios();
+    expect(res.num).toEqual(1);
     //num=Object.keys(sistema.usuarios).length;
     //expect(num).toEqual(1);
     expect(sistema.usuarios["Pepe"].nick).toEqual("Pepe");
   });
 
   it("Eliminar usuario",function(){
-    expect(sistema.numeroUsuarios()).toEqual(0);
+    let res=sistema.numeroUsuarios();
+    expect(res.num).toEqual(0);
     sistema.agregarUsuario("Pepe");
-    expect(sistema.numeroUsuarios()).toEqual(1);
-    sistema.eliminarUsuario("Pepe");
-    expect(sistema.numeroUsuarios()).toEqual(0);
+    res=sistema.numeroUsuarios();
+    expect(res.num).toEqual(1);
+    let res2=sistema.eliminarUsuario("Pepe");
+    expect(res2.nick).toEqual("Pepe");
+    res2=sistema.eliminarUsuario("Luis");
+    expect(res2.nick).toEqual(-1);
+    res=sistema.numeroUsuarios();
+    expect(res.num).toEqual(0);
   });
 
   it("Usuario activo", function(){
     sistema.agregarUsuario("Pepe");
-    expect(sistema.usuarioActivo("Pepe")).toEqual(true);
+    let res=sistema.usuarioActivo("Pepe");
+    expect(res.activo).toEqual(true);
   });
 
   it("Obtener usuarios",function(){
@@ -44,12 +53,12 @@ describe('El sistema...', function() {
   });
 
   it("Número usuarios",function(){
-    let num=sistema.numeroUsuarios();
-    expect(num).toBe(0);
+    let res=sistema.numeroUsuarios();
+    expect(res.num).toBe(0);
     sistema.agregarUsuario("Pepe");
     sistema.agregarUsuario("Pepe1");
-    num=sistema.numeroUsuarios();
-    expect(num).toBe(2);
+    res=sistema.numeroUsuarios();
+    expect(res.num).toBe(2);
   })
 })
   
