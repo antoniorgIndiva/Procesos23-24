@@ -20,5 +20,10 @@ function ControlWeb(){
         })
 
     }
+    this.mostrarMsg=function(msg){
+        $('mMsg').remove()
+        let cadena = '<h6 id="mMsg">'+msg+'</h6>'
+        $('#msg').append(cadena)
+    }
 
 }
