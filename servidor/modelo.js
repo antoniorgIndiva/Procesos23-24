@@ -41,8 +41,9 @@ function Sistema(){
     }
 }
 
-function Usuario(nick){
+function Usuario(nick,clave){
     this.nick=nick;
+    this.clave=clave
 }
 
 module.exports.Sistema=Sistema;

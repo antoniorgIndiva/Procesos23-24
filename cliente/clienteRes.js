@@ -2,18 +2,19 @@ function ClienteRest(){
     this.agregarUsuario=function(nick){
         var cli=this;
         $.getJSON("/agregarUsuario/"+nick,function(data){
-            let msg= ""
-            if (data.nick!=-1){
-                console.log("Usuario "+nick+" ha sido registrado")
-                msg = "Usuario "+nick+" ha sido registrado"
-            }
-            else{
-                console.log("El nick ya está ocupado");
-                msg = "El " +nick+ " ya está ocupado"
-            }
-            cw.mostrarMsg(msg)
+        let msg="El nick "+nick+" está ocupado";
+        if (data.nick!=-1){
+        console.log("Usuario "+nick+" ha sido registrado");
+        msg="Bienvenido al sistema, "+nick;
+        $.cookie(clave, valor)
+        // localStorage.setItem("nick",nick);
+        }
+        else{
+        console.log("El nick ya está ocupado");
+        }
+        cw.mostrarMensaje(msg);
         });
-    }
+        }
     this.agregarUsuario2=function(nick){
         $.ajax({
             type:'GET',

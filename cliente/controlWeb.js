@@ -25,5 +25,21 @@ function ControlWeb(){
         let cadena = '<h6 id="mMsg">'+msg+'</h6>'
         $('#msg').append(cadena)
     }
+    this.comprobarSesion=function(){
+        //let nick=localStorage.getItem("nick");
+        let nick=$.cookie("nick");
+        if (nick){
+            cw.mostrarMsg("Bienvenido al sistema, "+nick);
+        }
+        else{
+            cw.mostrarAgregarUsuario();
+        }
+    }
+    this.salir=function(){
+        localStorage.removeItem("nick");
+        $.removeCookie("nick")
+        location.reload();
+    }
+       
 
 }
