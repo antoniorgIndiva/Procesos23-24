@@ -25,9 +25,10 @@ app.get('/google/callback',
 });
 app.get("/good", function(request,response){
     let nick=request.user.emails[0].value;
-    if (nick){
-    sistema.agregarUsuario(nick);
-    }
+    // if (nick){
+    // sistema.agregarUsuario(nick);
+    // }
+    sistema.obtenerOCrearUsuario(nick)
     //console.log(request.user.emails[0].value);
     response.cookie('nick',nick);
     response.redirect('/');
