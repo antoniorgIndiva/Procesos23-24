@@ -13,11 +13,17 @@ function Sistema(test){
             console.log("el nick "+nick+" está en uso"); 
         } return res;
     }
-    this.obtenerOCrearUsuario = function(email) {
-        this.cad.buscarOCrearUsuario(email,function(res){
-            console.log("El usuario "+res.email+" está registrado en el sistema")
-        })
+    this.obtenerOCrearUsuario=function(email,callback){
+        let copia=email;
+        this.cad.buscarOCrearUsuario(email,function(obj){
+            if (obj.email==null){
+                console.log("El usuario "+copia+" ya estaba registrado");
+                obj.email=copia;
+            }
+            callback(obj);
+        });
     }
+
 
     this.obtenerUsuarios=function(){
         return this.usuarios;

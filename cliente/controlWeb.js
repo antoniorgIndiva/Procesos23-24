@@ -34,10 +34,11 @@ function ControlWeb(){
         //let nick=localStorage.getItem("nick");
         let nick=$.cookie("nick");
         if (nick){
-            cw.mostrarMsg("Bienvenido al sistema, "+nick);
+        cw.mostrarMsg("Bienvenido al sistema, "+nick);
         }
         else{
-            cw.mostrarAgregarUsuario();
+        cw.mostrarAgregarUsuario();
+        cw.init();
         }
     }
     this.salir=function(){
@@ -45,6 +46,28 @@ function ControlWeb(){
         $.removeCookie("nick")
         location.reload();
     }
+
+    this.init=function(){
+        let cw=this;
+        google.accounts.id.initialize({
+        client_id:"259650379862-gkh4hvjdp1ku5v4grv1u77name2k9hlv.apps.googleusercontent.com", //prod
+        auto_select:false,
+        callback:cw.handleCredentialsResponse
+        });
+        google.accounts.id.prompt();
+        }
+        this.handleCredentialsResponse=function(response){
+            let jwt=response.credential;
+            //let user=JSON.parse(atob(jwt.split(".")[1]));
+            //console.log(user.name);
+            //console.log(user.email);
+            //console.log(user.picture);
+            rest.enviarJwt(jwt);
+        }
+        this.limpiar=function(){
+            $("#mAU").remove();
+        }
+    
        
 
 }

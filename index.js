@@ -2,6 +2,7 @@ const fs=require("fs");
 const express = require('express');
 const app = express();
 const passport=require("passport");
+const bodyParser=require("body-parser");
 const cookieSession=require("cookie-session");
 const args = process.argv.slice(2); 
 
@@ -18,6 +19,8 @@ app.use(cookieSession({
     name: 'Batalla Naval',
     keys: ['key1', 'key2']
    }));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -81,3 +84,12 @@ app.listen(PORT, () => {
     console.log(`App está escuchando en el puerto ${PORT}`);
     console.log('Ctrl+C para salir');
 });
+
+app.post('/enviarJwt',function(request,response){
+    let jwt=request.body.jwt;
+    let user=JSON.parse(atob(jwt.split(".")[1]));
+    let email=user.email;
+    sistema.obtenerOCrearUsuario(email,function(obj){
+    response.send({'nick':obj.email});
+    })
+   });
