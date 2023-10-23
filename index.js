@@ -3,9 +3,15 @@ const express = require('express');
 const app = express();
 const passport=require("passport");
 const cookieSession=require("cookie-session");
+const args = process.argv.slice(2); 
+
+
 require("./servidor/passport-setup.js");
 const modelo = require("./servidor/modelo.js");
 const PORT = process.env.PORT || 3000;
+
+let test=false; 
+test=eval(args[0]); //test=true
 
 app.use(express.static(__dirname + "/"));
 app.use(cookieSession({
@@ -15,7 +21,7 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-let sistema= new modelo.Sistema();
+let sistema= new modelo.Sistema(test);
 
 app.get("/auth/google",passport.authenticate('google', { scope: ['profile','email'] }));
 app.get('/google/callback',
