@@ -13,14 +13,10 @@ function Sistema(test){
             console.log("el nick "+nick+" está en uso"); 
         } return res;
     }
-    this.obtenerOCrearUsuario=function(email,callback){
-        let copia=email;
-        this.cad.buscarOCrearUsuario(email,function(obj){
-            if (obj.email==null){
-                console.log("El usuario "+copia+" ya estaba registrado");
-                obj.email=copia;
-            }
-            callback(obj);
+    this.usuarioGoogle=function(usr,callback){
+        this.cad.buscarOCrearUsuario(usr,function(res){
+            console.log("El usuario "+res.email+" ya estaba registrado");
+            callback(res);
         });
     }
 

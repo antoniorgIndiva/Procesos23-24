@@ -34,13 +34,11 @@ app.get('/google/callback',
 });
 app.get("/good", function(request,response){
     let nick=request.user.emails[0].value;
-    // if (nick){
-    // sistema.agregarUsuario(nick);
-    // }
-    sistema.obtenerOCrearUsuario(nick)
-    //console.log(request.user.emails[0].value);
-    response.cookie('nick',nick);
-    response.redirect('/');
+    sistema.usuarioGoogle({"email":email},function(usr){
+        response.cookie('nick',usr.email);
+        response.redirect('/');
+    })
+
    });
 app.get("/fallo",function(request,response){
     response.send({nick:"nook"})
@@ -89,7 +87,7 @@ app.post('/enviarJwt',function(request,response){
     let jwt=request.body.jwt;
     let user=JSON.parse(atob(jwt.split(".")[1]));
     let email=user.email;
-    sistema.obtenerOCrearUsuario(email,function(obj){
+    sistema.usuarioGoogle({"email":email},function(obj){
     response.send({'nick':obj.email});
     })
    });

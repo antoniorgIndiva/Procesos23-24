@@ -37,7 +37,8 @@ function ControlWeb(){
         cw.mostrarMsg("Bienvenido al sistema, "+nick);
         }
         else{
-        cw.mostrarAgregarUsuario();
+        // cw.mostrarAgregarUsuario();
+        cw.mostrarRegistro();
         cw.init();
         }
     }
@@ -64,9 +65,26 @@ function ControlWeb(){
             //console.log(user.picture);
             rest.enviarJwt(jwt);
         }
-        this.limpiar=function(){
-            $("#mAU").remove();
-        }
+    this.limpiar=function(){
+        $("#mAU").remove();
+    }
+    this.mostrarRegistro = function () {
+        $("#fmRegistro").remove();
+        $("#registro").load("./cliente/registro.html",function () {
+            $("#btnRegistro").on("click", function(){
+                let email = $("#email").val()
+                let pwd = $("#pwd").val()
+                if(email && pwd){
+                    //rest.registrarUsuario(nick)
+                    console.log(email+ " " +pwd )
+                }
+                //recoger valor input text
+                //llamar al servidor usando rest
+                
+            })
+        })
+
+    }
     
        
 
