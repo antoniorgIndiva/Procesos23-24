@@ -1,4 +1,5 @@
 const datos = require("./cad.js")
+const correo = require("./email.js")
 function Sistema(test){
     this.usuarios={}; //this.usuarios=[]
     this.cad= new datos.CAD();
@@ -19,6 +20,29 @@ function Sistema(test){
             callback(res);
         });
     }
+    this.registrarUsuario=function(obj,callback){
+        let modelo=this;
+        if (!obj.nick){
+        obj.nick=obj.email;
+        }
+        this.cad.buscarUsuario(obj,function(usr){
+        if (!usr){
+            obj.key=Date.now().toString()
+            obj.confirmada = false
+            modelo.cad.insertarUsuario(obj,function(res){
+        callback(res);
+        });
+        correo.enviarEmail(obj.email,obj.key,"Confirmar cuenta")
+        //correo.enviarEmail("antoniorg.129@gmail.com","hola","Confirmar cuenta")
+        }
+        else
+        {
+        callback({"email":-1});
+        }
+        });
+    }
+    
+        
 
 
     this.obtenerUsuarios=function(){

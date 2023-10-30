@@ -43,6 +43,12 @@ app.get("/good", function(request,response){
 app.get("/fallo",function(request,response){
     response.send({nick:"nook"})
 });
+app.post("/registrarUsuario",function(request,response){
+    sistema.registrarUsuario(request.body,function(res){
+    response.send({"nick":res.email});
+    });
+    });
+    
 
 app.get("/", function(request,response){
     let contenido=fs.readFileSync(__dirname+"/cliente/index.html");

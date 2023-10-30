@@ -75,11 +75,27 @@ function ControlWeb(){
                 let email = $("#email").val()
                 let pwd = $("#pwd").val()
                 if(email && pwd){
-                    //rest.registrarUsuario(nick)
+                    rest.registrarUsuario(email,pwd)
                     console.log(email+ " " +pwd )
                 }
                 //recoger valor input text
                 //llamar al servidor usando rest
+                
+            })
+        })
+
+    }
+    this.mostrarLogin = function () {
+        $("#fmLogin").remove();
+        $("#login").load("./cliente/login.html",function () {
+            $("#btnLogin").on("click", function(){
+                let email = $("#email").val()
+                let pwd = $("#pwd").val()
+                if(email && pwd){
+                    rest.loginUsuario(email,pwd)
+                    console.log(email+ " " +pwd )
+                }
+          
                 
             })
         })
