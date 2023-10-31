@@ -38,7 +38,7 @@ function ControlWeb(){
         }
         else{
         // cw.mostrarAgregarUsuario();
-        cw.mostrarRegistro();
+        //cw.mostrarRegistro();
         cw.init();
         }
     }
@@ -70,6 +70,7 @@ function ControlWeb(){
     }
     this.mostrarRegistro = function () {
         $("#fmRegistro").remove();
+        $("#fmLogin").remove();
         $("#registro").load("./cliente/registro.html",function () {
             $("#btnRegistro").on("click", function(){
                 let email = $("#email").val()
@@ -87,6 +88,7 @@ function ControlWeb(){
     }
     this.mostrarLogin = function () {
         $("#fmLogin").remove();
+        $("#fmRegistro").remove();
         $("#login").load("./cliente/login.html",function () {
             $("#btnLogin").on("click", function(){
                 let email = $("#email").val()
