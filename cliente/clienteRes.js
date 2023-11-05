@@ -1,3 +1,4 @@
+
 function ClienteRest(){
     this.agregarUsuario=function(nick){
         var cli=this;
@@ -70,11 +71,12 @@ function ClienteRest(){
         url:'/enviarJwt',
         data: JSON.stringify({"jwt":jwt}),
         success:function(data){
-        let msg="El nick "+nick+" está ocupado";
+        let msg="El nick "+ data.nick+" está ocupado";
         if (data.nick!=-1){
         console.log("Usuario "+data.nick+" ha sido registrado");
         msg="Bienvenido al sistema, "+data.nick;
         $.cookie("nick",data.nick);
+        
         }
         else{
             console.log("El nick ya está ocupado");
@@ -125,7 +127,7 @@ function ClienteRest(){
             console.log("Usuario "+data.nick+" ha sido registrado");
             $.cookie("nick",data.nick);
             cw.limpiar();
-            //cw.mostrarMensaje("Bienvenido al sistema, "+data.nick);
+            cw.mostrarMensaje("Bienvenido al sistema, "+data.nick);
             //cw.mostrarLogin();
             }
             else{

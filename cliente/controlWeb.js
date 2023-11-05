@@ -67,6 +67,7 @@ function ControlWeb(){
         }
     this.limpiar=function(){
         $("#mAU").remove();
+        $("#fmLogin").remove();
     }
     this.mostrarRegistro = function () {
         $("#fmRegistro").remove();
