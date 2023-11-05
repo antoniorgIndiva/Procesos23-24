@@ -87,6 +87,7 @@ function ControlWeb(){
 
     }
     this.mostrarLogin = function () {
+        if($.cookie('nick')) return true
         $("#fmLogin").remove();
         $("#fmRegistro").remove();
         $("#login").load("./cliente/login.html",function () {

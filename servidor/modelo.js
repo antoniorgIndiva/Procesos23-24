@@ -41,8 +41,35 @@ function Sistema(test){
         }
         });
     }
+
     
-        
+    this.loginUsuario=function(obj, callback){
+        this.cad.buscarUsuario({"email":obj.email, "confirmada":true}, function(usr){
+          if (usr && obj.password==usr.password)
+          {
+            callback(usr)
+          }
+          else
+          {
+            callback({"email": -1});
+          }
+        })
+    }
+    
+    this.confirmarUsuario=function(obj,callback){
+        modelo = this
+        this.cad.buscarUsuario({"email":obj.email, "confirmada":false,"key":obj.key}, function(usr){
+            if(usr){
+                usr.confirmada=true
+                modelo.cad.actualizarUsuario(usr,function(res){
+                    callback({"email":res.email}) // es lo mismo que devolver res
+                })
+            }else
+          {
+            callback({"email": -1});
+          }
+        })
+    }
 
 
     this.obtenerUsuarios=function(){

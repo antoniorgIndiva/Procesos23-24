@@ -23,7 +23,7 @@ function CAD(){
     }
 
     this.buscarUsuario=function(obj,callback){
-        buscar(this.usuarios,{"email":obj.email},callback);
+        buscar(this.usuarios,obj,callback);
     }
     this.insertarUsuario=function(usuario,callback){
         insertar(this.usuarios,usuario,callback);
@@ -50,6 +50,23 @@ function CAD(){
         }
         });
     }
+    this.actualizarUsuario=function(obj,callback){
+        actualizar(this.usuarios,obj,callback);
+    }
+
+
+    function actualizar(coleccion,obj,callback){
+        coleccion.findOneAndUpdate({_id:ObjectId(obj._id)}, {$set: obj}, {upsert: false,returnDocument:"after",projection:{email:1}}, function(err,doc) {
+            if (err) { throw err; }
+            else { 
+                 console.log("Elemento actualizado"); 
+                 //console.log(doc);
+                 //console.log(doc);
+                 callback({email:doc.value.email});
+             }
+          });   
+    }
+
 
 
     this.conectar=async function(callback){

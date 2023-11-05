@@ -91,7 +91,7 @@ function ClienteRest(){
         //dataType:'json'
         });
         }
-        this.registrarUsuario=function(email,password){
+    this.registrarUsuario=function(email,password){
             $.ajax({
             type:'POST',
             url:'/registrarUsuario',
@@ -102,7 +102,7 @@ function ClienteRest(){
             //$.cookie("nick",data.nick);
             cw.limpiar();
             //cw.mostrarMensaje("Bienvenido al sistema, "+data.nick);
-            //cw.mostrarLogin();
+            cw.mostrarLogin();
             }
             else{
             console.log("El nick está ocupado");
@@ -114,6 +114,31 @@ function ClienteRest(){
             },
             contentType:'application/json'
             });
+        }
+        this.loginUsuario=function(email,password){
+            $.ajax({
+            type:'POST',
+            url:'/loginUsuario',
+            data: JSON.stringify({"email":email,"password":password}),
+            success:function(data){
+            if (data.nick!=-1){
+            console.log("Usuario "+data.nick+" ha sido registrado");
+            $.cookie("nick",data.nick);
+            cw.limpiar();
+            //cw.mostrarMensaje("Bienvenido al sistema, "+data.nick);
+            //cw.mostrarLogin();
             }
+            else{
+            console.log("No se pudo iniciar sesión");
+            }
+            },
+            error:function(xhr, textStatus, errorThrown){
+            console.log("Status: " + textStatus);
+            console.log("Error: " + errorThrown);
+            },
+            contentType:'application/json'
+            });
+        }
+    
 
 }

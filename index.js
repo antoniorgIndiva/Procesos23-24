@@ -47,7 +47,12 @@ app.post("/registrarUsuario",function(request,response){
     sistema.registrarUsuario(request.body,function(res){
     response.send({"nick":res.email});
     });
+});
+app.post("/loginUsuario",function(request,response){
+    sistema.loginUsuario(request.body,function(res){
+    response.send({"nick":res.email});
     });
+});
     
 
 app.get("/", function(request,response){
@@ -88,6 +93,16 @@ app.listen(PORT, () => {
     console.log(`App está escuchando en el puerto ${PORT}`);
     console.log('Ctrl+C para salir');
 });
+app.get("/confirmarUsuario/:email/:key",function (request,response) {
+    let email = request.params.email
+    let key = request.params.key
+    console.log({"email":email,"key":key})
+    sistema.confirmarUsuario({"email":email,"key":key},function(usr){
+        if(usr.email!=-1)  
+            response.cookie('nick',usr.email)
+        response.redirect('/')
+    })
+})
 
 app.post('/enviarJwt',function(request,response){
     let jwt=request.body.jwt;
