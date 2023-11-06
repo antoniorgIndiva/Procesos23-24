@@ -1,5 +1,6 @@
 const datos = require("./cad.js")
 const correo = require("./email.js")
+const bcrypt = require('bcrypt');
 function Sistema(test){
     this.usuarios={}; //this.usuarios=[]
     this.cad= new datos.CAD();
@@ -20,41 +21,62 @@ function Sistema(test){
             callback(res);
         });
     }
-    this.registrarUsuario=function(obj,callback){
-        let modelo=this;
-        if (!obj.nick){
-        obj.nick=obj.email;
+    this.registrarUsuario = function (obj, callback) {
+        let modelo = this;
+        if (!obj.nick) {
+            obj.nick = obj.email;
         }
-        this.cad.buscarUsuario(obj,function(usr){
-        if (!usr){
-            obj.key=Date.now().toString()
-            obj.confirmada = false
-            modelo.cad.insertarUsuario(obj,function(res){
-        callback(res);
-        });
-        correo.enviarEmail(obj.email,obj.key,"Confirmar cuenta")
-        //correo.enviarEmail("antoniorg.129@gmail.com","hola","Confirmar cuenta")
-        }
-        else
-        {
-        callback({"email":-1});
-        }
+        this.cad.buscarUsuario(obj, function (usr) {
+            if (!usr) {
+                obj.key = Date.now().toString();
+                obj.confirmada = false;
+    
+                // Hashear la contraseña antes de insertarla en la base de datos
+                bcrypt.hash(obj.password, 10, function (err, hash) {
+                    if (err) {
+                        console.error('Error al hashear la contraseña:', err);
+                        callback({ error: 'Error al hashear la contraseña' });
+                    } else {
+                        obj.password = hash;
+    
+                        modelo.cad.insertarUsuario(obj, function (res) {
+                            callback(res);
+                        });
+                        correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+                    }
+                });
+            } else {
+                callback({ email: -1 });
+            }
         });
     }
+    
 
     
-    this.loginUsuario=function(obj, callback){
-        this.cad.buscarUsuario({"email":obj.email, "confirmada":true}, function(usr){
-          if (usr && obj.password==usr.password)
-          {
-            callback(usr)
-          }
-          else
-          {
-            callback({"email": -1});
-          }
-        })
+    this.loginUsuario = function (obj, callback) {
+        this.cad.buscarUsuario({ "email": obj.email, "confirmada": true }, function (usr) {
+            if (usr) {
+                // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
+                bcrypt.compare(obj.password, usr.password, function (err, result) {
+                    if (err) {
+                        // Maneja el error de comparación, si es necesario
+                        console.error('Error al comparar contraseñas:', err);
+                        callback({ error: 'Error al comparar contraseñas' });
+                    } else if (result) {
+                        // Contraseña válida
+                        callback(usr);
+                    } else {
+                        // Contraseña incorrecta
+                        callback({ "email": -1 });
+                    }
+                });
+            } else {
+                // Usuario no encontrado
+                callback({ "email": -1 });
+            }
+        });
     }
+    
     
     this.confirmarUsuario=function(obj,callback){
         modelo = this

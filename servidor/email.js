@@ -17,8 +17,18 @@ module.exports.enviarEmail=async function(direccion, key,men) {
         to: direccion,
         subject: men,
         text: 'Pulsa aquí para confirmar cuenta',
-        html: '<p>Bienvenido a Sistema</p><p><a href="'+url+'confirmarUsuario/'+direccion+'/'+key+'">Pulsa aquí para confirmar cuenta</a></p>'
+        html: `
+            <div style="font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px;">
+                <h1 style="color: #007BFF;">Bienvenido al Sistema</h1>
+                <p style="font-size: 16px; color: #333;">Gracias por registrarte en nuestro sistema.</p>
+                <p style="font-size: 16px; color: #333;">
+                    Para confirmar tu cuenta, pulsa el siguiente enlace:
+                    <a href="${url}confirmarUsuario/${direccion}/${key}" style="color: #007BFF;">Confirmar Cuenta</a>
+                </p>
+            </div>
+        `
     });
+    
     console.log(JSON.stringify(result, null, 4));
 
 }
