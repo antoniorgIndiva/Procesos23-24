@@ -39,11 +39,12 @@ function ControlWeb() {
       cw.init();
     }
   };
-  this.salir = function () {
-    localStorage.removeItem("nick");
+  this.salir=function(){
+    //localStorage.removeItem("nick");
     $.removeCookie("nick");
     location.reload();
-  };
+    rest.cerrarSesion();
+    }
 
   this.init = function () {
     let cw = this;
@@ -66,6 +67,7 @@ function ControlWeb() {
   this.limpiar = function () {
     $("#mAU").remove();
     $("#fmLogin").remove();
+    $("#fmRegistro").remove();
   };
   this.mostrarRegistro = function () {
     $("#fmRegistro").remove();
@@ -78,8 +80,7 @@ function ControlWeb() {
           rest.registrarUsuario(email, pwd);
           console.log(email + " " + pwd);
         }
-        //recoger valor input text
-        //llamar al servidor usando rest
+        
       });
     });
   };

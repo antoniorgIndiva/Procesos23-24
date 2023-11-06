@@ -1,4 +1,3 @@
-
 function ClienteRest() {
   this.agregarUsuario = function (nick) {
     var cli = this;
@@ -115,6 +114,13 @@ function ClienteRest() {
       contentType: "application/json",
     });
   };
+  this.cerrarSesion = function () {
+    $.getJSON("/cerrarSesion", function () {
+      console.log("Sesión cerrada");
+      $.removeCookie("nick");
+    });
+  };
+
   this.loginUsuario = function (email, password) {
     $.ajax({
       type: "POST",
@@ -128,11 +134,11 @@ function ClienteRest() {
           cw.mostrarMsg("Bienvenido al sistema, " + data.nick);
           //cw.mostrarLogin();
         } else {
-            Swal.fire({
-            icon: 'error',
-            title: 'Contraseña/usuario incorrecto',
+          Swal.fire({
+            icon: "error",
+            title: "Contraseña/usuario incorrecto",
             showConfirmButton: false,
-            timer: 3000
+            timer: 3000,
           });
 
           console.log("No se pudo iniciar sesión");
@@ -144,13 +150,13 @@ function ClienteRest() {
       },
       contentType: "application/json",
     });
-    this.datosErroneos=function(){
-        Swal.fire({
-            icon: 'error',
-            title: 'Contraseña/usuario incorrecto',
-            showConfirmButton: false,
-            timer: 3000
-          });
-    }
+    this.datosErroneos = function () {
+      Swal.fire({
+        icon: "error",
+        title: "Contraseña/usuario incorrecto",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    };
   };
 }

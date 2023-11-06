@@ -62,6 +62,7 @@ function Sistema(test){
                     } else if (result) {
                         // Contraseña válida
                         callback(usr);
+                        
                     } else {
                         // Contraseña incorrecta
                         callback({ "email": -1 });
