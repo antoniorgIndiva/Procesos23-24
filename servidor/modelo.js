@@ -17,7 +17,6 @@ function Sistema(test){
     }
     this.usuarioGoogle=function(usr,callback){
         this.cad.buscarOCrearUsuario(usr,function(res){
-            console.log("El usuario "+res.email+" ya estaba registrado");
             callback(res);
         });
     }
@@ -56,10 +55,8 @@ function Sistema(test){
     this.loginUsuario = function (obj, callback) {
         this.cad.buscarUsuario({ "email": obj.email, "confirmada": true }, function (usr) {
             if (usr) {
-                // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
                 bcrypt.compare(obj.password, usr.password, function (err, result) {
                     if (err) {
-                        // Maneja el error de comparación, si es necesario
                         console.error('Error al comparar contraseñas:', err);
                         callback({ error: 'Error al comparar contraseñas' });
                     } else if (result) {
@@ -71,7 +68,6 @@ function Sistema(test){
                     }
                 });
             } else {
-                // Usuario no encontrado
                 callback({ "email": -1 });
             }
         });
