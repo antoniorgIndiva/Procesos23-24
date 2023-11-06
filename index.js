@@ -63,12 +63,13 @@ app.get(
   }
 );
 app.get("/good", function (request, response) {
-  let nick = request.user.emails[0].value;
-  sistema.usuarioGoogle({ email: email }, function (usr) {
-    response.cookie("nick", usr.email);
+  let email = request.user.emails[0].value;
+  sistema.usuarioGoogle({ email: email }, function (obj) {
+    response.cookie("nick", obj.email);
     response.redirect("/");
   });
 });
+
 app.get("/fallo", function (request, response) {
   response.send({ nick: "nook" });
 });

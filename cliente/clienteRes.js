@@ -133,10 +133,10 @@ function ClienteRest() {
           cw.limpiar();
           cw.mostrarMsg("Bienvenido al sistema, " + data.nick);
           //cw.mostrarLogin();
-        } else {
+        }else {
           Swal.fire({
             icon: "error",
-            title: "Contraseña/usuario incorrecto",
+            title: "Contraseña/usuario incorrecto. Recuerda haber confirmado la cuenta",
             showConfirmButton: false,
             timer: 3000,
           });
