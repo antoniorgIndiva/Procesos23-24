@@ -29,10 +29,10 @@
     "nodemailer": "^6.9.7",
     "passport": "^0.5.3",
     "passport-google-oauth20": "^2.0.0",
-    "sweetalert2": "^11.9.0"
+    "sweetalert2": "^11.9.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "passport-local": "^1.0.0"
+    "nodemon": "^3.0.1"
   }
 }

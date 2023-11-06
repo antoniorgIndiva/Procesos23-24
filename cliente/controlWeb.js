@@ -36,6 +36,7 @@ function ControlWeb() {
     } else {
       // cw.mostrarAgregarUsuario();
       //cw.mostrarRegistro();
+      cw.mostrarLogin()
       cw.init();
     }
   };
@@ -86,12 +87,12 @@ function ControlWeb() {
   };
   this.mostrarLogin = function () {
     if ($.cookie("nick")) return true;
-    $("#fmLogin").remove();
-    $("#fmRegistro").remove();
+    this.limpiar()
     $("#registro").load("./cliente/login.html", function () {
       $("#btnLogin").on("click", function () {
         let email = $("#email").val();
         let pwd = $("#pwd").val();
+        console.log({email, pwd})
         if (email && pwd) {
           rest.loginUsuario(email, pwd);
           console.log(email + " " + pwd);

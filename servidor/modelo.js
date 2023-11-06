@@ -54,12 +54,15 @@ function Sistema(test){
     
     this.loginUsuario = function (obj, callback) {
         this.cad.buscarUsuario({ "email": obj.email, "confirmada": true }, function (usr) {
+            console.log({usr})
             if (usr) {
                 bcrypt.compare(obj.password, usr.password, function (err, result) {
+                    console.log({err})
                     if (err) {
                         console.error('Error al comparar contraseñas:', err);
                         callback({ error: 'Error al comparar contraseñas' });
                     } else if (result) {
+                        console.log({usr,callback})
                         // Contraseña válida
                         callback(usr);
                         

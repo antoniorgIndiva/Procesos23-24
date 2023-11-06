@@ -37,8 +37,9 @@ passport.use(
     { usernameField: "email", passwordField: "password" },
     function (email, password, done) {
       sistema.loginUsuario(
-        { email: email, password: password },
+        { "email": email, "password": password },
         function (user) {
+          console.log({user,n:1})
           return done(null, user);
         }
       );
@@ -71,7 +72,7 @@ app.get("/good", function (request, response) {
 });
 
 app.get("/fallo", function (request, response) {
-  response.send({ nick: "nook" });
+  response.send({ nick: "-1" });
 });
 app.post("/registrarUsuario", function (request, response) {
   sistema.registrarUsuario(request.body, function (res) {
@@ -80,10 +81,7 @@ app.post("/registrarUsuario", function (request, response) {
 });
 app.post(
   "/loginUsuario",
-  passport.authenticate("local", {
-    failureRedirect: "/fallo",
-    successRedirect: "/ok",
-  })
+  passport.authenticate("local", {failureRedirect: "/fallo",successRedirect: "/ok"})
 );
 app.get("/cerrarSesion", haIniciado, function (request, response) {
   let nick = request.user.nick;
@@ -95,6 +93,7 @@ app.get("/cerrarSesion", haIniciado, function (request, response) {
 });
 
 app.get("/ok", function (request, response) {
+  console.log({request})
   response.send({ nick: request.user.email });
 });
 
