@@ -28,6 +28,8 @@ passport.use(
     {
       clientID: "259650379862-oc05utci7tksinh74a2mqfphnu4pm8u1.apps.googleusercontent.com", //despliegue
       clientSecret: "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", //despliegue
+      //clientID: "259650379862-2nudt9umk9m62bkl1ctru2nm38nas7pq.apps.googleusercontent.com", //local
+      //clientSecret: "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", //local
       verifyCsrfToken: false, // whether to validate the csrf token or not
     },
     function (profile, done) {
