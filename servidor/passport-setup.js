@@ -1,5 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleOneTapStrategy = require("passport-google-one-tap").GoogleOneTapStrategy;
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -19,6 +20,21 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       return done(null, profile);
+    }
+  )
+);
+passport.use(
+  new GoogleOneTapStrategy(
+    {
+      clientID: "259650379862-oc05utci7tksinh74a2mqfphnu4pm8u1.apps.googleusercontent.com", //despliegue
+      clientSecret: "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", //despliegue
+      verifyCsrfToken: false, // whether to validate the csrf token or not
+    },
+    function (profile, done) {
+      // Here your app code, for example:
+      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(null, profile);
+      // });
     }
   )
 );

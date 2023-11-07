@@ -37,7 +37,7 @@ function ControlWeb() {
       // cw.mostrarAgregarUsuario();
       //cw.mostrarRegistro();
       cw.mostrarLogin()
-      cw.init();
+      //cw.init();
     }
   };
   this.salir=function(){

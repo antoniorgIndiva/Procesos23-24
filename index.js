@@ -62,6 +62,17 @@ app.get(
     res.redirect("/good");
   }
 );
+
+app.post(
+  "/oneTap/callback",
+  passport.authenticate("google-one-tap", { failureRedirect: "/fallo" }),
+
+  function (req, res) {
+    res.redirect("/good");
+  }
+);
+
+
 app.get("/good", function (request, response) {
   let email = request.user.emails[0].value;
   sistema.usuarioGoogle({ email: email }, function (obj) {
