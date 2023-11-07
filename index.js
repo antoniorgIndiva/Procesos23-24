@@ -39,7 +39,6 @@ passport.use(
       sistema.loginUsuario(
         { "email": email, "password": password },
         function (user) {
-          console.log({user,n:1})
           return done(null, user);
         }
       );
@@ -93,7 +92,6 @@ app.get("/cerrarSesion", haIniciado, function (request, response) {
 });
 
 app.get("/ok", function (request, response) {
-  console.log({request})
   response.send({ nick: request.user.email });
 });
 

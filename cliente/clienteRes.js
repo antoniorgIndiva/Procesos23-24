@@ -128,9 +128,7 @@ function ClienteRest() {
       url: "/loginUsuario",
       data: JSON.stringify({ email: email, password: password }),
       success: function (data) {
-        console.log({data})
         if (data.nick != -1) {
-
           console.log("Usuario " + data.nick + " ha sido registrado");
           $.cookie("nick", data.nick);
           cw.limpiar();

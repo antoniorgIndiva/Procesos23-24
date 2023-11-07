@@ -89,10 +89,11 @@ function ControlWeb() {
     if ($.cookie("nick")) return true;
     this.limpiar()
     $("#registro").load("./cliente/login.html", function () {
-      $("#btnLogin").on("click", function () {
+      $("#btnLogin").on("click", function (event) 
+      {
+        event.preventDefault();
         let email = $("#email").val();
         let pwd = $("#pwd").val();
-        console.log({email, pwd})
         if (email && pwd) {
           rest.loginUsuario(email, pwd);
           console.log(email + " " + pwd);
