@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const args = process.argv.slice(2);
 const haIniciado = function (request, response, next) {
+  console.log({request})
   if (request.user) {
     next();
   } else {
@@ -118,23 +119,23 @@ app.get("/", function (request, response) {
 //   response.send(res);
 // });
 
-app.get("/obtenerUsuarios", function (request, response) {
+app.get("/obtenerUsuarios",haIniciado, function (request, response) {
   let lista = sistema.obtenerUsuarios();
   response.send(lista);
 });
 
-app.get("/usuarioActivo/:email", function (request, response) {
+app.get("/usuarioActivo/:email",haIniciado, function (request, response) {
   let email = request.params.email;
   let res = sistema.usuarioActivo(email);
   response.send(res);
 });
 
-app.get("/numeroUsuarios", function (request, response) {
+app.get("/numeroUsuarios",haIniciado, function (request, response) {
   let res = sistema.numeroUsuarios();
   response.send(res);
 });
 
-app.get("/eliminarUsuario/:email", function (request, response) {
+app.get("/eliminarUsuario/:email",haIniciado, function (request, response) {
   let email = request.params.email;
   let res = sistema.eliminarUsuario(email);
   response.send(res);

@@ -5,10 +5,11 @@ function Sistema(test){
     this.usuarios={}; //this.usuarios=[]
     this.cad= new datos.CAD();
     this.test = test
-    this.agregarUsuario=function(email){
+    this.agregarUsuario=function(usr){
         let res={"email":-1}; 
+        let email = usr.email
         if (!this.usuarios[email]){ 
-            this.usuarios[email]=new Usuario(email);
+            this.usuarios[email]=new Usuario(usr);
             res.email=email; 
         } 
         else{ 
@@ -16,8 +17,10 @@ function Sistema(test){
         } return res;
     }
     this.usuarioGoogle=function(usr,callback){
+        let modelo = this
         this.cad.buscarOCrearUsuario(usr,function(res){
             callback(res);
+            modelo.agregarUsuario(usr)
         });
     }
     this.registrarUsuario = function (obj, callback) {
@@ -50,8 +53,8 @@ function Sistema(test){
 
     
     this.loginUsuario = function (obj, callback) {
+        let modelo=this
         this.cad.buscarUsuario({ "email": obj.email, "confirmada": true }, function (usr) {
-            console.log({usr})
             if (usr) {
                 bcrypt.compare(obj.password, usr.password, function (err, result) {
                     console.log({err})
@@ -62,6 +65,7 @@ function Sistema(test){
                         console.log({usr,callback})
                         // Contraseña válida
                         callback(usr);
+                        modelo.agregarUsuario(usr)
                         
                     } else {
                         // Contraseña incorrecta
@@ -131,7 +135,7 @@ function Sistema(test){
 function Usuario(usr){
     this.nick=usr.nick;
     this.email=usr.email
-    this.clave=clave
+    //this.clave=clave
 }
 
 module.exports.Sistema=Sistema;
