@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js test=false",
     "dev": "nodemon index.js test=false",
-    "testW": "node_modules\\.bin\\jasmine-node servidor",
+    "testW": "node_modules\\.bin\\jasmine-node servidor --forceexit",
     "test": "./node_modules/.bin/jasmine-node servidor"
   },
   "repository": {

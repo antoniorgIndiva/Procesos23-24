@@ -32,6 +32,7 @@ function CAD() {
   this.insertarUsuario = function (usuario, callback) {
     insertar(this.usuarios, usuario, callback);
   };
+
   function insertar(coleccion, elemento, callback) {
     coleccion.insertOne(elemento, function (err, result) {
       if (err) {
@@ -89,6 +90,16 @@ function CAD() {
       console.error("Error al conectar a MongoDB:", err);
     }
   };
+  this.eliminarUsuario = function (criterio, callback) {
+    eliminar(this.usuarios, criterio, callback);
+  };
+
+  function eliminar(coleccion, criterio, callback) {
+    coleccion.deleteOne(criterio, function (err, result) {
+      if (err) throw err;
+      callback(result);
+    });
+  }
 }
 
 module.exports.CAD = CAD;

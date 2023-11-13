@@ -63,6 +63,35 @@ describe("El sistema...", function () {
     res = sistema.numeroUsuarios();
     expect(res.num).toBe(2);
   });
+
+  describe("Métodos que acceden a datos",function(){
+    let usrTest={"email":"test@test.es","password":"test","nick":"test"}
+    beforeEach(function(done){
+      sistema.cad.conectar(function(){
+        //sistema.registrarUsuario(usrTest,function(res){
+          //sistema.confirmarCuenta(usrTest.email,function(){
+            done()
+          //})
+        //})
+        //done()
+      })
+    })
+    it("Inicio de sesion correcto",function(done){
+      sistema.loginUsuario(usrTest,function(res){
+        expect(res.email).toEqual(usrTest.email)
+        expect(res.email).toNotEqual(-1)
+        done()
+      })
+    })
+    it("Inicio de sesion incorrecto",function(done){
+      let usr1={"email":"test@test.es","password":"test23","nick":"test"}
+      sistema.loginUsuario(usr1,function(res){
+        expect(res.email).toEqual(-1)
+        //expect(res.email).toNotEqual(-1)
+        done()
+      })
+    })
+  })
   // it("Usuario registrado", function () {
   //   let res = sistema.numeroUsuarios();
   //   console.log('usuarios: '+cad.usuarios)
