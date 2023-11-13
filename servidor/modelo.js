@@ -5,14 +5,14 @@ function Sistema(test){
     this.usuarios={}; //this.usuarios=[]
     this.cad= new datos.CAD();
     this.test = test
-    this.agregarUsuario=function(nick){
-        let res={"nick":-1}; 
-        if (!this.usuarios[nick]){ 
-            this.usuarios[nick]=new Usuario(nick);
-            res.nick=nick; 
+    this.agregarUsuario=function(email){
+        let res={"email":-1}; 
+        if (!this.usuarios[email]){ 
+            this.usuarios[email]=new Usuario(email);
+            res.email=email; 
         } 
         else{ 
-            console.log("el nick "+nick+" está en uso"); 
+            console.log("el email "+email+" está en uso"); 
         } return res;
     }
     this.usuarioGoogle=function(usr,callback){
@@ -22,9 +22,6 @@ function Sistema(test){
     }
     this.registrarUsuario = function (obj, callback) {
         let modelo = this;
-        if (!obj.nick) {
-            obj.nick = obj.email;
-        }
         this.cad.buscarUsuario(obj, function (usr) {
             if (!usr) {
                 obj.key = Date.now().toString();
@@ -100,18 +97,18 @@ function Sistema(test){
     this.obtenerTodosNick=function(){
         return Object.keys(this.usuarios);
     }
-    this.usuarioActivo=function(nick){
+    this.usuarioActivo=function(email){
         //return !(this.usuarios[nick]==undefined)
         let res={activo:false};
-        res.activo=(nick in this.usuarios);
+        res.activo=(email in this.usuarios);
         return res;
     }
-    this.eliminarUsuario=function(nick){
-        let res={nick:-1};
-        if (this.usuarios[nick]){
-            delete this.usuarios[nick];
-            res.nick=nick;
-            console.log("Usuario "+nick+" eliminado");
+    this.eliminarUsuario=function(email){
+        let res={email:-1};
+        if (this.usuarios[email]){
+            delete this.usuarios[email];
+            res.email=email;
+            console.log("Usuario "+email+" eliminado");
         }
         else{
             console.log("El usuario no existe");
@@ -131,8 +128,9 @@ function Sistema(test){
 
 }
 
-function Usuario(nick,clave){
-    this.nick=nick;
+function Usuario(usr){
+    this.nick=usr.nick;
+    this.email=usr.email
     this.clave=clave
 }
 
