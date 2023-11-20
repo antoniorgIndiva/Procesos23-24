@@ -130,7 +130,7 @@ function Sistema(test) {
   }
   correo.conectar(function(res){
     console.log("Variables secretas obtenidas")
-    console.log(res)
+    //console.log(res)
   })
 }
 

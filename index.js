@@ -1,12 +1,14 @@
 const fs = require("fs");
 const express = require("express");
 const app = express();
+const { Server } = require("socket.io");
+const httpServer = require("http").Server(app);
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const args = process.argv.slice(2);
 const haIniciado = function (request, response, next) {
-  console.log({request})
+  console.log({ request });
   if (request.user) {
     next();
   } else {
@@ -18,10 +20,17 @@ const LocalStrategy = require("passport-local").Strategy;
 
 require("./servidor/passport-setup.js");
 const modelo = require("./servidor/modelo.js");
+const moduloWS = require("./servidor/servidorWS.js");
 const PORT = process.env.PORT || 3000;
+
 
 let test = false;
 test = eval(args[0]); //test=true
+let sistema = new modelo.Sistema(test);
+
+let ws = new moduloWS.ServidorWS();
+let io = new Server();
+io.listen(httpServer);
 
 app.use(express.static(__dirname + "/"));
 app.use(
@@ -38,7 +47,7 @@ passport.use(
     { usernameField: "email", passwordField: "password" },
     function (email, password, done) {
       sistema.loginUsuario(
-        { "email": email, "password": password },
+        { email: email, password: password },
         function (user) {
           return done(null, user);
         }
@@ -48,8 +57,6 @@ passport.use(
 );
 
 app.use(passport.session());
-
-let sistema = new modelo.Sistema(test);
 
 app.get(
   "/auth/google",
@@ -73,7 +80,6 @@ app.post(
   }
 );
 
-
 app.get("/good", function (request, response) {
   let email = request.user.emails[0].value;
   sistema.usuarioGoogle({ email: email }, function (obj) {
@@ -92,7 +98,10 @@ app.post("/registrarUsuario", function (request, response) {
 });
 app.post(
   "/loginUsuario",
-  passport.authenticate("local", {failureRedirect: "/fallo",successRedirect: "/ok"})
+  passport.authenticate("local", {
+    failureRedirect: "/fallo",
+    successRedirect: "/ok",
+  })
 );
 app.get("/cerrarSesion", haIniciado, function (request, response) {
   let email = request.user.email;
@@ -119,29 +128,29 @@ app.get("/", function (request, response) {
 //   response.send(res);
 // });
 
-app.get("/obtenerUsuarios",haIniciado, function (request, response) {
+app.get("/obtenerUsuarios", haIniciado, function (request, response) {
   let lista = sistema.obtenerUsuarios();
   response.send(lista);
 });
 
-app.get("/usuarioActivo/:email",haIniciado, function (request, response) {
+app.get("/usuarioActivo/:email", haIniciado, function (request, response) {
   let email = request.params.email;
   let res = sistema.usuarioActivo(email);
   response.send(res);
 });
 
-app.get("/numeroUsuarios",haIniciado, function (request, response) {
+app.get("/numeroUsuarios", haIniciado, function (request, response) {
   let res = sistema.numeroUsuarios();
   response.send(res);
 });
 
-app.get("/eliminarUsuario/:email",haIniciado, function (request, response) {
+app.get("/eliminarUsuario/:email", haIniciado, function (request, response) {
   let email = request.params.email;
   let res = sistema.eliminarUsuario(email);
   response.send(res);
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`App está escuchando en el puerto ${PORT}`);
   console.log("Ctrl+C para salir");
 });
@@ -163,3 +172,6 @@ app.post("/enviarJwt", function (request, response) {
     response.send({ email: obj.email });
   });
 });
+
+io.listen(httpServer)
+ws.lanzarServidor(io);
