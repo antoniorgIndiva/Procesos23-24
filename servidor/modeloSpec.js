@@ -79,7 +79,7 @@ describe("El sistema...", function () {
     it("Inicio de sesion correcto",function(done){
       sistema.loginUsuario(usrTest,function(res){
         expect(res.email).toEqual(usrTest.email)
-        expect(res.email).toNotEqual(-1)
+        expect(res.email).not.toEqual(-1)
         done()
       })
     })

@@ -4,21 +4,28 @@ const url = "http://localhost:3000/";
 
 let options = { user: "antoniorg.129@gmail.com", pass: "" };
 
-gv.accessCLAVECORREO(function (clave) {
-  options.pass = clave;
-  //console.log({clave})
-});
+// gv.accessCLAVECORREO(function (clave) {
+//   options.pass = clave;
+//   //console.log({clave})
+// });
+let transporter;
+// gv.obtenerOptions(function (res) {
+//   console.log(res);
+//   options = res;
+// });
 
+module.exports.conectar = function (callback) {
+  gv.obtenerOptions(function (res) {
+    options = res;
+    callback(res)
+  });
+};
 //send();
 
 module.exports.enviarEmail = async function (direccion, key, men) {
-  const transporter = nodemailer.createTransport({
+  transporter = nodemailer.createTransport({
     service: "gmail",
     auth: options,
-    // {
-    //     user: 'antoniorg.129@gmail.com',
-    //     pass: 'leik puil olnj asfn'
-    // }
   });
   const result = await transporter.sendMail({
     from: "antoniorg.129@gmail.com",
