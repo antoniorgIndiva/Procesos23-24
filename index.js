@@ -30,7 +30,7 @@ let sistema = new modelo.Sistema(test);
 
 let ws = new moduloWS.ServidorWS();
 let io = new Server();
-io.listen(httpServer);
+//io.listen(httpServer);
 
 app.use(express.static(__dirname + "/"));
 app.use(
@@ -174,4 +174,4 @@ app.post("/enviarJwt", function (request, response) {
 });
 
 io.listen(httpServer)
-ws.lanzarServidor(io);
+ws.lanzarServidor(io, sistema);
