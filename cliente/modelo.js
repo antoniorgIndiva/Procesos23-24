@@ -150,6 +150,23 @@ function Sistema(test) {
     }
   };
 
+  this.obtenerPartidasDisponibles=function(){
+    //obtener todas o solo las disponibles
+    //inicializar un array[]
+    const partidasDisponibles = []
+    this.partidas.forEach(partidas => {
+      if (partidas.jugadores.length < partidas.maxJug){
+        partidasDisponibles.push({
+          creador:partidas.jugadores[0].nick,
+          codigo:partidas.codigo
+        })
+      }
+    })
+    return partidasDisponibles
+    //recorrer el array asociativo
+    //crear una lista
+  }
+
   this.unirAPartida = function (email, codigo) {
     // Obtener el usuario cuyo email es “email”
     const usuario = sistema.usuarios.hasOwnProperty(email)
@@ -165,14 +182,17 @@ function Sistema(test) {
 
       // Asignar al usuario como jugador de la partida
       usuario.partidaActual = codigo;
-
       console.log(`Usuario ${email} unido a la partida ${codigo}`);
+      return codigo
     } else if (partida && partida.jugadores.length >= partida.maxJug) {
       console.log(`La partida ${codigo} está llena. No se puede unir.`);
+      return -1
     } else {
       console.log("Usuario o partida no encontrados");
+      return -1
     }
   };
+
 
   this.obtenerCodigo = function () {
     const longitud = 6;
