@@ -127,29 +127,30 @@ function Sistema(test) {
 
   this.crearPartida = function (email) {
     // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
-    if (sistema.usuarios.hasOwnProperty(email)) {
+    if (this.usuarios.hasOwnProperty(email)) {
       // Obtener un código único
       const codigoPartida = this.obtenerCodigo();
       // Crear la partida con ese código
       const nuevaPartida = {
         codigo: codigoPartida,
-        jugadores: [sistema.usuarios[email]], // El usuario es el primer jugador de la partida
+        jugadores: [this.usuarios[email]], // El usuario es el primer jugador de la partida
         maxJug:2
-        
       };
 
       // Incluir la nueva partida en la colección
-      sistema.partidas.push(nuevaPartida);
+      this.partidas.push(nuevaPartida);
 
       // Asignar al usuario como jugador de la partida
       // Puedes guardar el código de la partida en el objeto del usuario
-      sistema.usuarios[email].partidaActual = codigoPartida;
+      this.usuarios[email].partidaActual = codigoPartida;
 
       // También puedes realizar otras acciones según tus necesidades
 
       console.log(`Partida creada con código: ${codigoPartida}`);
+      return codigoPartida
     } else {
-      console.log("Usuario no encontrado en sistema.usuarios");
+      console.log("Usuario no encontrado");
+      return -1
     }
   };
 
@@ -172,29 +173,50 @@ function Sistema(test) {
 
   this.unirAPartida = function (email, codigo) {
     // Obtener el usuario cuyo email es “email”
-    const usuario = sistema.usuarios.hasOwnProperty(email)
-      ? sistema.usuarios[email]
+    const usuario = this.usuarios.hasOwnProperty(email)
+      ? this.usuarios[email]
       : null;
-
+  
     // Obtener la partida cuyo código es “codigo”
-    const partida = sistema.partidas.find((p) => p.codigo === codigo);
+    const partida = this.partidas.find((p) => p.codigo === codigo);
+  
+    // Verificar si el usuario ya está en la partida
+    if (usuario && usuario.partidaActual === codigo) {
+      console.log(`El usuario ${email} ya está en la partida ${codigo}. No se puede unir nuevamente.`);
+      return -1;
+    }
+  
     // Si existen el usuario y la partida, y aún hay espacio para más jugadores, entonces
     if (usuario && partida && partida.jugadores.length < partida.maxJug) {
       // Asignar al usuario a la partida
       partida.jugadores.push(usuario);
-
+  
       // Asignar al usuario como jugador de la partida
       usuario.partidaActual = codigo;
       console.log(`Usuario ${email} unido a la partida ${codigo}`);
-      return codigo
+      return codigo;
     } else if (partida && partida.jugadores.length >= partida.maxJug) {
       console.log(`La partida ${codigo} está llena. No se puede unir.`);
-      return -1
+      return -1;
     } else {
       console.log("Usuario o partida no encontrados");
-      return -1
+      return -1;
     }
   };
+  
+  this.obtenerCreadorPartida = function (codigo) {
+    const partida = this.partidas.find((p) => p.codigo === codigo);
+  
+    // Verificar si la partida existe
+    if (partida) {
+      // Devolver al creador de la partida (suponiendo que el creador es el primer jugador en la lista)
+      return partida.jugadores.length > 0 ? partida.jugadores[0].nick : null;
+    } else {
+      console.log(`Partida ${codigo} no encontrada`);
+      return null;
+    }
+  };
+  
 
 
   this.obtenerCodigo = function () {

@@ -106,17 +106,33 @@ describe("El sistema...", function () {
       expect(sistema.numeroUsuarios()).toEqual(3)
       expect(sistema.obtenerPartidasDisponibles().length).toEqual(0)
     })
-    xit("Crear partida", function(){
+    it("Crear partida", function(){
+      sistema.crearPartida(usr.email)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
       
     })
-    xit("Unir a partida", function(){
-      
+    it("Unir a partida", function(){
+      res = sistema.crearPartida(usr.email)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
+      sistema.unirAPartida(usr2.email,res)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(0)
     })
-    xit("Un usuario no puede estar dos veces en una partida", function(){
-      
+    it("Un usuario no puede estar dos veces en una partida", function(){
+      res = sistema.crearPartida(usr.email)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
+      sistema.unirAPartida(usr.email,res)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
+      sistema.unirAPartida(usr2.email,res)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(0)
+
+
     })
-    xit("Obtener partidas", function(){
-      
+    it("Obtener partidas", function(){
+      res = sistema.crearPartida(usr.email)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
+      res1 = sistema.crearPartida(usr2.email)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(2)
+
     })
   })
   // it("Usuario registrado", function () {
