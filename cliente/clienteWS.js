@@ -4,6 +4,7 @@ function ClienteWS() {
     this.socket = io.connect();
     this.lanzarServidorWS();
   };
+  this.conectar()
   this.lanzarServidorWS = function () {
     let cli = this
     this.socket.on("connect", function () {
