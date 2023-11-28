@@ -32,7 +32,8 @@ function ControlWeb() {
     //let nick=localStorage.getItem("nick");
     let email = $.cookie("email");
     if (email) {
-      cw.mostrarMsg("Bienvenido al sistema, " + email);
+      //cw.mostrarMsg("Bienvenido al sistema, " + email);
+      rest.comprobarUsuario(email)
     } else {
       // cw.mostrarAgregarUsuario();
       //cw.mostrarRegistro();

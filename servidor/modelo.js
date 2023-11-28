@@ -29,7 +29,7 @@ function Sistema(test) {
     this.cad.buscarUsuario(obj, function (usr) {
       if (!usr) {
         obj.key = Date.now().toString();
-        obj.confirmada = false;
+        obj.confirmada =true;// false;
 
         // Hashear la contraseña antes de insertarla en la base de datos
         bcrypt.hash(obj.password, 10, function (err, hash) {
@@ -43,7 +43,7 @@ function Sistema(test) {
               callback(res);
             });
             if (!modelo.test) {
-              correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+              //correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
             }
           }
         });

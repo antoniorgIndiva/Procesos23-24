@@ -121,6 +121,21 @@ function ClienteRest() {
     });
   };
 
+  this.comprobarUsuario = function (email) {
+    $.getJSON("/comprobarUsuario/"+email, function (datos) {
+      // console.log("Sesión cerrada");
+      // $.removeCookie("email");
+      if(datos.email==-1){
+        $.removeCookie("email");
+        cw.limpiar()
+        cw.mostrarLogin()
+      }else{
+        ws.email=email
+        cw.mostrarMsg("Bienvenido al sistema, " + email);
+      }
+    });
+  };
+
   this.loginUsuario = function (email, password) {
     console.log({email,password})
     $.ajax({
@@ -131,6 +146,7 @@ function ClienteRest() {
         if (data.email != -1) {
           console.log("Usuario " + data.email + " ha sido registrado");
           $.cookie("email", data.email);
+          ws.email=data.email 
           cw.limpiar();
           cw.mostrarMsg("Bienvenido al sistema, " + data.email);
           //cw.mostrarLogin();

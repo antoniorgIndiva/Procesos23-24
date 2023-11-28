@@ -149,6 +149,16 @@ app.get("/eliminarUsuario/:email", haIniciado, function (request, response) {
   let res = sistema.eliminarUsuario(email);
   response.send(res);
 });
+app.get("/comprobarUsuario/:email",function(request,response){
+  let email=request.params.email;
+  if (sistema.usuarios[email]){
+    response.send({"email":email});
+  }
+  else{
+    response.send({"email":-1});
+  }
+})
+
 
 httpServer.listen(PORT, () => {
   console.log(`App está escuchando en el puerto ${PORT}`);
