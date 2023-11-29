@@ -12,6 +12,9 @@ function Sistema(test) {
     if (!this.usuarios[email]) {
       this.usuarios[email] = new Usuario(usr);
       res.email = email;
+      if(res.nick== undefined){
+        res.nick=email //por si se inicia con github
+      }
     } else {
       console.log("el email " + email + " está en uso");
     }
@@ -133,33 +136,32 @@ function Sistema(test) {
   };
 
   this.crearPartida = function (email) {
-    // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
-    if (this.usuarios.hasOwnProperty(email)) {
-      // Obtener un código único
-      const codigoPartida = this.obtenerCodigo();
-      // Crear la partida con ese código
-      const nuevaPartida = {
-        codigo: codigoPartida,
-        jugadores: [this.usuarios[email]], // El usuario es el primer jugador de la partida
-        maxJug:2
-      };
+  // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
+  if (this.usuarios.hasOwnProperty(email)) {
+    // Obtener un código único
+    const codigoPartida = this.obtenerCodigo();
+    // Crear la partida con el constructor Partida
+    const nuevaPartida = new Partida(codigoPartida);
 
-      // Incluir la nueva partida en la colección
-      this.partidas.push(nuevaPartida);
+    // Agregar al usuario como primer jugador de la partida
+    nuevaPartida.jugadores.push(this.usuarios[email]);
 
-      // Asignar al usuario como jugador de la partida
-      // Puedes guardar el código de la partida en el objeto del usuario
-      this.usuarios[email].partidaActual = codigoPartida;
+    // Incluir la nueva partida en la colección
+    this.partidas.push(nuevaPartida);
 
-      // También puedes realizar otras acciones según tus necesidades
+    // Asignar al usuario como jugador de la partida
+    // Puedes guardar el código de la partida en el objeto del usuario
+    this.usuarios[email].partidaActual = codigoPartida;
 
-      console.log(`Partida creada con código: ${codigoPartida}`);
-      return codigoPartida
-    } else {
-      console.log("Usuario no encontrado");
-      return -1
-    }
-  };
+    // También puedes realizar otras acciones según tus necesidades
+
+    console.log(`Partida creada con código: ${codigoPartida}`);
+    return codigoPartida;
+  } else {
+    console.log("Usuario no encontrado");
+    return -1;
+  }
+};
 
   this.obtenerPartidasDisponibles=function(){
     //obtener todas o solo las disponibles
@@ -168,7 +170,7 @@ function Sistema(test) {
     this.partidas.forEach(partidas => {
       if (partidas.jugadores.length < partidas.maxJug){
         partidasDisponibles.push({
-          creador:partidas.jugadores[0].nick,
+          creador:partidas.jugadores[0].email,
           codigo:partidas.codigo
         })
       }
@@ -186,7 +188,7 @@ function Sistema(test) {
   
     // Obtener la partida cuyo código es “codigo”
     const partida = this.partidas.find((p) => p.codigo === codigo);
-  
+
     // Verificar si el usuario ya está en la partida
     if (usuario && usuario.partidaActual === codigo) {
       console.log(`El usuario ${email} ya está en la partida ${codigo}. No se puede unir nuevamente.`);
