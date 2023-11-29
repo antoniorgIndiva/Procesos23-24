@@ -1,5 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
 const GoogleOneTapStrategy = require("passport-google-one-tap").GoogleOneTapStrategy;
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -37,6 +38,19 @@ passport.use(
       // User.findOrCreate({ googleId: profile.id }, function (err, user) {
         return done(null, profile);
       // });
+    }
+  )
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: "8996cd45b6ba2b3cb807",
+      clientSecret: "4e75789ba446219311647b7d42dff4edd10c2491",
+      callbackURL: "http://localhost:3000/auth/github/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      return done(null, profile);
     }
   )
 );

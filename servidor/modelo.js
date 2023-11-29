@@ -24,6 +24,13 @@ function Sistema(test) {
       modelo.agregarUsuario(usr);
     });
   };
+  this.usuarioGithub = function (usr, callback) {
+    let modelo = this;
+    this.cad.buscarOCrearUsuario(usr, function (res) {
+      callback(res);
+      modelo.agregarUsuario(usr);
+    });
+  };
   this.registrarUsuario = function (obj, callback) {
     let modelo = this;
     this.cad.buscarUsuario(obj, function (usr) {

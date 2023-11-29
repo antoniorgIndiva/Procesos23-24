@@ -79,10 +79,27 @@ app.post(
     res.redirect("/good");
   }
 );
+app.get("/auth/github", passport.authenticate("github"));
+
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/fallo" }),
+  function (req, res) {
+    res.redirect("/goodGitHub");
+  }
+);
+
 
 app.get("/good", function (request, response) {
   let email = request.user.emails[0].value;
   sistema.usuarioGoogle({ email: email }, function (obj) {
+    response.cookie("email", obj.email);
+    response.redirect("/");
+  });
+});
+app.get("/goodGitHub", function (request, response) {
+  let email = request.user.username;
+  sistema.usuarioGithub({ email: email }, function (obj) {
     response.cookie("email", obj.email);
     response.redirect("/");
   });
