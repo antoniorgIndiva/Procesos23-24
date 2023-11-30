@@ -45,9 +45,13 @@ passport.use(
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "8996cd45b6ba2b3cb807",
-      clientSecret: "4e75789ba446219311647b7d42dff4edd10c2491",
-      callbackURL: "http://localhost:3000/auth/github/callback",
+      //clientID: "8996cd45b6ba2b3cb807",  //local
+      //clientSecret: "4e75789ba446219311647b7d42dff4edd10c2491", //local
+      //callbackURL: "http://localhost:3000/auth/github/callback", //local
+
+      clientID: "4e56b6f02d8cd852f678",  //despliegue
+      clientSecret: "e9fd893747bae1a1d28e281b0e6f9a3493bebfbd", //despliegue
+      callbackURL: "https://arqbase-gh-yw5dam37vq-ew.a.run.app/auth/github/callback", //despliegue
     },
     function (accessToken, refreshToken, profile, done) {
       return done(null, profile);
