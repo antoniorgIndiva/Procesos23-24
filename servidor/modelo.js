@@ -12,8 +12,8 @@ function Sistema(test) {
     if (!this.usuarios[email]) {
       this.usuarios[email] = new Usuario(usr);
       res.email = email;
-      if(res.nick== undefined){
-        res.nick=email //por si se inicia con github
+      if (res.nick == undefined) {
+        res.nick = email; //por si se inicia con github
       }
     } else {
       console.log("el email " + email + " está en uso");
@@ -25,6 +25,7 @@ function Sistema(test) {
     this.cad.buscarOCrearUsuario(usr, function (res) {
       callback(res);
       modelo.agregarUsuario(usr);
+      modelo.cad.insertarLog({"tipo":"google","usr":res.email,"fecha":new Date()})
     });
   };
   this.usuarioGithub = function (usr, callback) {
@@ -39,7 +40,7 @@ function Sistema(test) {
     this.cad.buscarUsuario(obj, function (usr) {
       if (!usr) {
         obj.key = Date.now().toString();
-        obj.confirmada =true;// false;
+        obj.confirmada = true; // false;
 
         // Hashear la contraseña antes de insertarla en la base de datos
         bcrypt.hash(obj.password, 10, function (err, hash) {
@@ -109,6 +110,16 @@ function Sistema(test) {
   this.obtenerUsuarios = function () {
     return this.usuarios;
   };
+  this.obtenerUsuariosDB = function (callback) {
+    this.cad.bucarTodosUsuarios(function (lista) {
+      callback(lista);
+    });
+  };
+  this.obtenerLogs = function (callback) {
+    this.cad.bucarLogs(function (lista) {
+      callback(lista);
+    });
+  };
   this.obtenerTodosNick = function () {
     return Object.keys(this.usuarios);
   };
@@ -131,75 +142,77 @@ function Sistema(test) {
   };
   this.numeroUsuarios = function () {
     let lista = Object.keys(this.usuarios);
-    let res = lista.length ;
+    let res = lista.length;
     return res;
   };
 
   this.crearPartida = function (email) {
-  // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
-  if (this.usuarios.hasOwnProperty(email)) {
-    // Obtener un código único
-    const codigoPartida = this.obtenerCodigo();
-    // Crear la partida con el constructor Partida
-    const nuevaPartida = new Partida(codigoPartida);
+    // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
+    if (this.usuarios.hasOwnProperty(email)) {
+      // Obtener un código único
+      const codigoPartida = this.obtenerCodigo();
+      // Crear la partida con el constructor Partida
+      const nuevaPartida = new Partida(codigoPartida);
 
-    // Agregar al usuario como primer jugador de la partida
-    nuevaPartida.jugadores.push(this.usuarios[email]);
+      // Agregar al usuario como primer jugador de la partida
+      nuevaPartida.jugadores.push(this.usuarios[email]);
 
-    // Incluir la nueva partida en la colección
-    this.partidas.push(nuevaPartida);
+      // Incluir la nueva partida en la colección
+      this.partidas.push(nuevaPartida);
 
-    // Asignar al usuario como jugador de la partida
-    // Puedes guardar el código de la partida en el objeto del usuario
-    this.usuarios[email].partidaActual = codigoPartida;
+      // Asignar al usuario como jugador de la partida
+      // Puedes guardar el código de la partida en el objeto del usuario
+      this.usuarios[email].partidaActual = codigoPartida;
 
-    // También puedes realizar otras acciones según tus necesidades
+      // También puedes realizar otras acciones según tus necesidades
 
-    console.log(`Partida creada con código: ${codigoPartida}`);
-    return codigoPartida;
-  } else {
-    console.log("Usuario no encontrado");
-    return -1;
-  }
-};
+      console.log(`Partida creada con código: ${codigoPartida}`);
+      return codigoPartida;
+    } else {
+      console.log("Usuario no encontrado");
+      return -1;
+    }
+  };
 
-  this.obtenerPartidasDisponibles=function(){
+  this.obtenerPartidasDisponibles = function () {
     //obtener todas o solo las disponibles
     //inicializar un array[]
-    const partidasDisponibles = []
-    this.partidas.forEach(partidas => {
-      if (partidas.jugadores.length < partidas.maxJug){
+    const partidasDisponibles = [];
+    this.partidas.forEach((partidas) => {
+      if (partidas.jugadores.length < partidas.maxJug) {
         partidasDisponibles.push({
-          creador:partidas.jugadores[0].email,
-          codigo:partidas.codigo
-        })
+          creador: partidas.jugadores[0].email,
+          codigo: partidas.codigo,
+        });
       }
-    })
-    return partidasDisponibles
+    });
+    return partidasDisponibles;
     //recorrer el array asociativo
     //crear una lista
-  }
+  };
 
   this.unirAPartida = function (email, codigo) {
     // Obtener el usuario cuyo email es “email”
     const usuario = this.usuarios.hasOwnProperty(email)
       ? this.usuarios[email]
       : null;
-  
+
     // Obtener la partida cuyo código es “codigo”
     const partida = this.partidas.find((p) => p.codigo === codigo);
 
     // Verificar si el usuario ya está en la partida
     if (usuario && usuario.partidaActual === codigo) {
-      console.log(`El usuario ${email} ya está en la partida ${codigo}. No se puede unir nuevamente.`);
+      console.log(
+        `El usuario ${email} ya está en la partida ${codigo}. No se puede unir nuevamente.`
+      );
       return -1;
     }
-  
+
     // Si existen el usuario y la partida, y aún hay espacio para más jugadores, entonces
     if (usuario && partida && partida.jugadores.length < partida.maxJug) {
       // Asignar al usuario a la partida
       partida.jugadores.push(usuario);
-  
+
       // Asignar al usuario como jugador de la partida
       usuario.partidaActual = codigo;
       console.log(`Usuario ${email} unido a la partida ${codigo}`);
@@ -212,10 +225,10 @@ function Sistema(test) {
       return -1;
     }
   };
-  
+
   this.obtenerCreadorPartida = function (codigo) {
     const partida = this.partidas.find((p) => p.codigo === codigo);
-  
+
     // Verificar si la partida existe
     if (partida) {
       // Devolver al creador de la partida (suponiendo que el creador es el primer jugador en la lista)
@@ -225,8 +238,6 @@ function Sistema(test) {
       return null;
     }
   };
-  
-
 
   this.obtenerCodigo = function () {
     const longitud = 6;
@@ -247,7 +258,6 @@ function Sistema(test) {
       console.log("Conectado a Mongo Atlas");
     });
   }
-  
 }
 
 function Usuario(usr) {

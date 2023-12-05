@@ -3,7 +3,16 @@ var ObjectId = require("mongodb").ObjectId;
 
 function CAD() {
   this.usuarios;
+  this.logs;
+  this.insertarLog = function (log, callback) {
+    insertar(this.logs, log, callback);
+  };
 
+  function buscarTodos(coleccion, callback) {
+    coleccion.find().toArray(function (error, usr) {
+      callback(usr);
+    });
+  }
   this.buscarOCrearUsuario = function (usr, callback) {
     //buscarOCrear(this.usuarios,{email:email},callback);
     buscarOCrear(this.usuarios, usr, callback);
@@ -31,6 +40,18 @@ function CAD() {
   };
   this.insertarUsuario = function (usuario, callback) {
     insertar(this.usuarios, usuario, callback);
+  };
+  function buscarTodos(coleccion, callback) {
+    coleccion.find().toArray(function (error, lista) {
+      callback(lista);
+    });
+  }
+
+  this.bucarTodosUsuarios = function (callback) {
+    buscarTodos(this.usuarios, callback);
+  };
+  this.bucarLogs = function (callback) {
+    buscarTodos(this.logs, callback);
   };
 
   function insertar(coleccion, elemento, callback) {
@@ -84,7 +105,7 @@ function CAD() {
       await client.connect();
       const database = client.db("sistema");
       cad.usuarios = database.collection("usuarios");
-
+      cad.logs = database.collection("logs");
       callback(database);
     } catch (err) {
       console.error("Error al conectar a MongoDB:", err);

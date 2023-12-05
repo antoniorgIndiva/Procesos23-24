@@ -144,6 +144,17 @@ app.get("/", function (request, response) {
 //   let res = sistema.agregarUsuario(nick);
 //   response.send(res);
 // });
+app.get("/obtenerUsuariosDB",haIniciado, function (request, response) {
+  sistema.obtenerUsuariosDB(function(lista){
+    response.send(lista)
+  })
+});
+
+app.get("/obtenerLogs", function (request, response) {
+  sistema.obtenerLogs(function(lista){
+    response.send(lista)
+  })
+});
 
 app.get("/obtenerUsuarios", haIniciado, function (request, response) {
   let lista = sistema.obtenerUsuarios();
