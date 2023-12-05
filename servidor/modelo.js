@@ -8,6 +8,7 @@ function Sistema(test) {
   this.test = test;
   this.agregarUsuario = function (usr) {
     let res = { email: -1 };
+    let modelo = this;
     let email = usr.email;
     if (!this.usuarios[email]) {
       this.usuarios[email] = new Usuario(usr);
@@ -15,7 +16,7 @@ function Sistema(test) {
       if (res.nick == undefined) {
         res.nick = email; //por si se inicia con github
       }
-      modelo.cad.insertarLog({"tipo":"local","usr":email,"fecha":new Date()})
+      //modelo.cad.insertarLog({"tipo":"local","usr":email,"fecha":new Date()})
 
     } else {
       console.log("el email " + email + " está en uso");
