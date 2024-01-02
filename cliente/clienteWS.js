@@ -20,12 +20,19 @@ function ClienteWS() {
       console.log(datos.codigo)
       ws.codigo=datos.codigo
     })
+    this.socket.on("partidaAbandonada",function(){
+      ws.codigo=undefined // el pone cli
+      //enviarle a home
+    })
   };
   this.crearPartida = function(){
     this.socket.emit("crearPartida",{"email":this.email})
   }
   this.unirPartida = function(codigo){
     this.socket.emit("unirPartida",{"email":this.email,"codigo":codigo})
+  }
+  this.abandonarPartida = function(){
+    this.socket.emit("abandonarPartida",{"email":this.email,"codigo":this.codigo})
   }
   this.conectar = function () {
     this.socket = io.connect();

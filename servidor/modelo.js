@@ -161,15 +161,14 @@ function Sistema(test) {
 
       // Agregar al usuario como primer jugador de la partida
       nuevaPartida.jugadores.push(this.usuarios[email]);
+      nuevaPartida.sistema=this
 
       // Incluir la nueva partida en la colección
       this.partidas.push(nuevaPartida);
 
       // Asignar al usuario como jugador de la partida
-      // Puedes guardar el código de la partida en el objeto del usuario
       this.usuarios[email].partidaActual = codigoPartida;
 
-      // También puedes realizar otras acciones según tus necesidades
 
       console.log(`Partida creada con código: ${codigoPartida}`);
       return codigoPartida;
@@ -178,6 +177,31 @@ function Sistema(test) {
       return -1;
     }
   };
+
+  this.eliminarPartida = function (codigo) {
+    let res = { codigo: -1 };
+    let index = this.partidas.findIndex((partida) => partida.codigo === codigo);
+  
+    if (index !== -1) {
+      // Eliminar la partida del array
+      this.partidas.splice(index, 1);
+      res.codigo = codigo;
+      console.log("Partida " + codigo + " eliminada");
+    } else {
+      console.log("La partida no existe");
+    }
+  
+    return res;
+  };
+  
+
+  this.abandonarPartida=function(datos){
+    let usr = this.usuarios[datos.email]
+    let partida = this.partidas[datos.codigo]
+    if(usr && partida){
+      partida.jugadorAbandona(usr)
+    }
+  }
 
   this.obtenerPartidasDisponibles = function () {
     //obtener todas o solo las disponibles
@@ -275,6 +299,19 @@ function Partida(codigo) {
   this.codigo = codigo;
   this.jugadores = [];
   this.maxJug = 2;
+  this.sistema
+
+  this.jugadorNoEsta=function(email){
+    return (this.jugadores.filter(e=>e.email==email).length==0)
+  }
+
+  this.jugadorAbandona=function(usr){
+    let index = this.jugadores.indexOf(usr)
+    this.jugadores.splice(index,1)
+    if (this.jugadores.length==0){
+      this.sistema.eliminarPartida(this.codigo)
+    }
+  }
 }
 
 module.exports.Sistema = Sistema;

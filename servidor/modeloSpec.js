@@ -107,9 +107,10 @@ describe("El sistema...", function () {
       expect(sistema.obtenerPartidasDisponibles().length).toEqual(0)
     })
     it("Crear partida", function(){
-      sistema.crearPartida(usr.email)
+      let codigo = sistema.crearPartida(usr.email)
       expect(sistema.obtenerPartidasDisponibles().length).toEqual(1)
-      
+      sistema.eliminarPartida(codigo)
+      expect(sistema.obtenerPartidasDisponibles().length).toEqual(0)
     })
     it("Unir a partida", function(){
       res = sistema.crearPartida(usr.email)
