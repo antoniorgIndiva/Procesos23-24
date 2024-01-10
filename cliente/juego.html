@@ -10,7 +10,7 @@
             <p style="font-size: 20px; font-weight: bold; color: #333;">Esperando a rival...</p>
             <img src="./cliente/img/load-8510_256.gif" alt="Cargando...">
             <br> 
-            <button onclick="cancelarEspera()" style="background-color: #007BFF; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;margin-top: 3px;">Cancelar</button>
+            <button id="btnEliminarPartida" onclick="cancelarPartida()" style="background-color: #007BFF; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;margin-top: 3px;">Cancelar</button>
         </div>
     </div>
     
@@ -120,11 +120,14 @@
 
 <script>
     document.getElementById('contenedorCargando').style.display = 'none';
-     function mostrarCargando() {
+    function mostrarCargando() {
         // Muestra el contenedor de carga
         document.getElementById('contenedorCargando').style.display = 'flex';
         // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
-
+    }
+    function cancelarPartida() {
+        // Oculta el contenedor de carga
+        document.getElementById('contenedorCargando').style.display = 'none';
     }
 
 

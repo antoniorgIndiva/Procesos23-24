@@ -89,7 +89,10 @@ function ControlWeb() {
       $("#btnCrearPartida").on("click", function () 
       {
         ws.crearPartida()
-
+      });
+      $("#btnEliminarPartida").on("click", function () 
+      {
+        ws.abandonarPartida()
       });
     });
 
