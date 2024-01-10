@@ -132,6 +132,7 @@ function ClienteRest() {
       }else{
         ws.email=email
         cw.mostrarMsg("Bienvenido al sistema, " + email);
+        cw.mostrarJuego()
       }
     });
   };
@@ -148,6 +149,7 @@ function ClienteRest() {
           ws.email=data.email 
           cw.limpiar();
           cw.mostrarMsg("Bienvenido al sistema, " + data.email);
+          cw.mostrarJuego()
           //cw.mostrarLogin();
         }else {
           Swal.fire({

@@ -2,6 +2,7 @@ function ClienteWS() {
   this.socket;
   this.email;
   this.codigo
+  this.partidas
   this.lanzarServidorWS = function () {
     let cli = this
     this.socket.on("connect", function () {
@@ -14,6 +15,7 @@ function ClienteWS() {
     })
     this.socket.on("listaPartidas",function(lista){
       console.log(lista)
+      this.partidas=lista
       //cw Mostrar lista partidas
     })
     this.socket.on("unidoPartida",function(datos){
@@ -29,8 +31,9 @@ function ClienteWS() {
     this.socket.emit("crearPartida",{"email":this.email})
   }
   this.unirPartida = function(codigo){
-    this.socket.emit("unirPartida",{"email":this.email,"codigo":codigo})
+    this.socket.emit("unirPartida",{"email":this.email})
   }
+
   this.abandonarPartida = function(){
     this.socket.emit("abandonarPartida",{"email":this.email,"codigo":this.codigo})
   }

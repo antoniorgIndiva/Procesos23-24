@@ -92,7 +92,6 @@ app.get(
 
 app.get("/good", function (request, response) {
   let email = request.user.emails[0].value;
-  console.log(email)
   sistema.usuarioGoogle({ email: email }, function (obj) {
     response.cookie("email", obj.email);
     response.redirect("/");

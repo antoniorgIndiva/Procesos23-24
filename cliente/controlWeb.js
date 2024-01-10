@@ -47,6 +47,9 @@ function ControlWeb() {
     $("#mAU").remove();
     $("#fmLogin").remove();
     $("#fmRegistro").remove();
+    $("#partidasDisponibles").remove();
+
+
   };
   this.mostrarRegistro = function () {
     $("#fmRegistro").remove();
@@ -74,7 +77,6 @@ function ControlWeb() {
         let pwd = $("#pwd").val();
         if (email && pwd) {
           rest.loginUsuario(email, pwd);
-          console.log(email + " " + pwd);
         } else {
           rest.datosErroneos();
         }
@@ -82,6 +84,14 @@ function ControlWeb() {
     });
   };
   this.mostrarJuego = function () {
-    
+    this.limpiar()
+    $("#juego").load("./cliente/juego.html", function () {
+      $("#btnCrearPartida").on("click", function () 
+      {
+        ws.crearPartida()
+
+      });
+    });
+
   }
 }
