@@ -137,7 +137,6 @@ function ClienteRest() {
   };
 
   this.loginUsuario = function (email, password) {
-    console.log({email,password})
     $.ajax({
       type: "POST",
       url: "/loginUsuario",
