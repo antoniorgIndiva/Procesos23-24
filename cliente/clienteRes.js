@@ -105,6 +105,12 @@ function ClienteRest() {
           cw.mostrarLogin();
         } else {
           console.log("El email está ocupado");
+          Swal.fire({
+            icon: "info",
+            title: "El email, " + email + " , está ocupado",
+            showConfirmButton: false,
+            timer: 3000,
+          });
         }
       },
       error: function (xhr, textStatus, errorThrown) {

@@ -212,13 +212,30 @@ function Sistema(test) {
   };
   
 
-  this.abandonarPartida=function(datos){
-    let usr = this.usuarios[datos.email]
-    let partida = this.partidas[datos.codigo]
-    if(usr && partida){
-      partida.jugadorAbandona(usr)
+  this.abandonarPartida = function (email, codigo) {
+    // Obtener el usuario cuyo email es “email”
+    console.log({email,codigo})
+    const usuario = this.usuarios.hasOwnProperty(email)
+      ? this.usuarios[email]
+      : null;  
+    // Obtener la partida cuyo código es “codigo”
+    const partida = this.partidas.find((p) => p.codigo === codigo);
+  
+    // Verificar si el usuario y la partida existen
+    if (usuario && partida) {
+      // Verificar si el usuario está en la partida
+      if (partida.jugadorNoEsta(email)) {
+        console.log(`El usuario ${email} no está en la partida ${codigo}`);
+      } else {
+        // Llamar al método jugadorAbandona de la partida
+        partida.jugadorAbandona(usuario);
+        console.log(`Usuario ${email} abandonó la partida ${codigo}`);
+      }
+    } else {
+      console.log("Usuario o partida no encontrados");
     }
-  }
+  };
+  
 
   this.obtenerPartidasDisponibles = function () {
     //obtener todas o solo las disponibles
@@ -229,6 +246,8 @@ function Sistema(test) {
         partidasDisponibles.push({
           creador: partidas.jugadores[0].email,
           codigo: partidas.codigo,
+          jugadores:partidas.jugadores,
+          maxJug:partidas.maxJug
         });
       }
     });
@@ -237,7 +256,7 @@ function Sistema(test) {
     //crear una lista
   };
 
-  this.unirAPartida = function (email, codigo) {
+  this.unirAPartida = function (email,codigo) {
     // Obtener el usuario cuyo email es “email”
     const usuario = this.usuarios.hasOwnProperty(email)
       ? this.usuarios[email]
@@ -245,6 +264,7 @@ function Sistema(test) {
 
     // Obtener la partida cuyo código es “codigo”
     const partida = this.partidas.find((p) => p.codigo === codigo);
+    console.log(partida)
 
     // Verificar si el usuario ya está en la partida
     if (usuario && usuario.partidaActual === codigo) {
@@ -255,7 +275,7 @@ function Sistema(test) {
     }
 
     // Si existen el usuario y la partida, y aún hay espacio para más jugadores, entonces
-    if (usuario && partida && partida.jugadores.length < partida.maxJug) {
+    if (partida && partida.jugadores.length < partida.maxJug) {
       // Asignar al usuario a la partida
       partida.jugadores.push(usuario);
 

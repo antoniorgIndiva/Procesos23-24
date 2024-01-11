@@ -1,135 +1,173 @@
 <div id="partidasDisponibles">
-    <h2>Partidas Disponibles</h2>
-    <div class="crear-partida-section mt-2">
-        <p>Crea tu propia partida</p>
-        <button class="crear-partida-btn" id="btnCrearPartida" onclick="mostrarCargando()">Crear Partida</button>
-    </div>
+  <h2>Partidas Disponibles</h2>
+  <div class="crear-partida-section mt-2">
+    <p>Crea tu propia partida</p>
+    <button
+      class="crear-partida-btn"
+      id="btnCrearPartida"
+      onclick="mostrarCargando()"
+    >
+      Crear Partida
+    </button>
+  </div>
 
-    <div id="contenedorCargando" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
-        <div id="cargando" style="text-align: center;">
-            <p style="font-size: 20px; font-weight: bold; color: #333;">Esperando a rival...</p>
-            <img src="./cliente/img/load-8510_256.gif" alt="Cargando...">
-            <br> 
-            <button id="btnEliminarPartida" onclick="cancelarPartida()" style="background-color: #007BFF; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;margin-top: 3px;">Cancelar</button>
-        </div>
+  <div
+    id="contenedorCargando"
+    style="
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div id="cargando" style="text-align: center">
+      <p style="font-size: 20px; font-weight: bold; color: #333">
+        Esperando a rival...
+      </p>
+      <img src="./cliente/img/load-8510_256.gif" alt="Cargando..." />
+      <br />
+      <button
+        id="btnEliminarPartida"
+        onclick="cancelarPartida()"
+        style="
+          background-color: #007bff;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-top: 3px;
+        "
+      >
+        Cancelar
+      </button>
     </div>
-    
+  </div>
 
-    <div class="partidas-table-container">
-        <table class="partidas-table">
-            <thead>
-                <tr>
-                    <th>Partida</th>
-                    <th>Jugadores</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Partida 1</td>
-                    <td>2/4</td>
-                    <td><button onclick="unirseAPartida('Partida 1')">Unirse</button></td>
-                </tr>
-                <tr>
-                    <td>Partida 2</td>
-                    <td>1/4</td>
-                    <td><button onclick="unirseAPartida('Partida 2')">Unirse</button></td>
-                </tr>
-                
-            </tbody>
-        </table>
-    </div>
+  <div class="partidas-table-container">
+    <table class="partidas-table">
+      <thead>
+        <tr>
+          <th>Partida</th>
+          <th>Jugadores</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tablaPartidasBody"></tbody>
+    </table>
+  </div>
 </div>
+<div style="margin-top: 10px; font-size: 12px;text-align: center;">
+    * Las partidas en dorado fueron creadas por ti.
+  </div>
 
 <style>
-    #partidasDisponibles {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
+  #partidasDisponibles {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
 
-    h2 {
-        background-color: #007BFF;
-        color: #fff;
-        padding: 15px;
-        margin: 0;
-        text-align: center;
-        border-radius: 8px 8px 0 0;
-    }
+  h2 {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+  }
 
-    .partidas-table-container {
-        overflow: auto;
-    }
+  .partidas-table-container {
+    overflow: auto;
+  }
 
-    .partidas-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+  .partidas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: center;
-    }
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
 
-    th {
-        background-color: #f2f2f2;
-    }
+  th {
+    background-color: #f2f2f2;
+  }
 
-    button {
-        padding: 8px 12px;
-        background-color: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+  button {
+    padding: 8px 12px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-    button:hover {
-        background-color: #45a049;
-    }
+  button:hover {
+    background-color: #45a049;
+  }
 
-    .crear-partida-section {
-        text-align: center;
-        margin-bottom: 20px; /* Espaciado inferior para separar del contenido de la tabla */
-    }
+  .crear-partida-section {
+    text-align: center;
+    margin-bottom: 20px; /* Espaciado inferior para separar del contenido de la tabla */
+  }
 
-    .crear-partida-section p {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
+  .crear-partida-section p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
 
-    /* Estilos para el botón de crear partida */
-    button.crear-partida-btn {
-        background-color: #007BFF;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+  .partida-creada-por-usuario {
+  background-color: #edd4a2; /
+}
 
-    button.crear-partida-btn:hover {
-        background-color: #0056b3;
-    }
+
+  /* Estilos para el botón de crear partida */
+  button.crear-partida-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button.crear-partida-btn:hover {
+    background-color: #0056b3;
+  }
 </style>
 
 <script>
-    document.getElementById('contenedorCargando').style.display = 'none';
-    function mostrarCargando() {
-        // Muestra el contenedor de carga
-        document.getElementById('contenedorCargando').style.display = 'flex';
-        // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
-    }
-    function cancelarPartida() {
-        // Oculta el contenedor de carga
-        document.getElementById('contenedorCargando').style.display = 'none';
-    }
+  document.getElementById("contenedorCargando").style.display = "none";
+  function mostrarCargando() {
+    // Muestra el contenedor de carga
+    document.getElementById("contenedorCargando").style.display = "flex";
+    // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
+  }
+  function cancelarPartida() {
+    // Oculta el contenedor de carga
+    document.getElementById("contenedorCargando").style.display = "none";
+  }
 
+  var cliente = new ClienteWS();
 
+  // Llama al método para obtener la lista de partidas
+  cliente.listaPartidas();
+
+  // Llama al método para renderizar la tabla con la lista de partidas
+  cliente.renderizarTablaPartidas();
 </script>
-    

@@ -37,13 +37,20 @@ function ServidorWS() {
       })
       socket.on("abandonarPartida",function(datos){
         //avisar a la partida
-        sistema.abandonarPartida(datos)
+        sistema.abandonarPartida(datos.email,datos.codigo)
         //responder a remitente "partidaAbandonada"
         srv.enviarAlRemitente(socket, "partidaAbandonada",null);
         //dejar la partida a nivel de socket
         socket.leave(datos.codigo)
         //enviar a todos la lista de partidas
         let lista = sistema.obtenerPartidasDisponibles();
+        srv.enviarGlobal(io, "listaPartidas", lista);
+      })
+      socket.on("listaPartidas",function(datos){
+        let lista = sistema.obtenerPartidasDisponibles();
+        srv.enviarAlRemitente(socket, "listaPartidas",null);
+        socket.leave(datos.codigo)
+        //enviar a todos la lista de partidas
         srv.enviarGlobal(io, "listaPartidas", lista);
       })
     });
