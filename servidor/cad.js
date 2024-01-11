@@ -50,7 +50,7 @@ function CAD() {
   this.bucarTodosUsuarios = function (callback) {
     buscarTodos(this.usuarios, callback);
   };
-  this.bucarLogs = function (callback) {
+  this.buscarLogs = function (callback) {
     buscarTodos(this.logs, callback);
   };
 

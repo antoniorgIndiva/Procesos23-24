@@ -150,11 +150,6 @@ app.get("/obtenerUsuariosDB",haIniciado, function (request, response) {
   })
 });
 
-app.get("/obtenerLogs", haIniciado, function (request, response) {
-  sistema.obtenerLogs(function(lista){
-    response.send(lista)
-  })
-});
 
 app.get("/obtenerUsuarios", haIniciado, function (request, response) {
   let lista = sistema.obtenerUsuarios();

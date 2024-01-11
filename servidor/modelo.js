@@ -23,6 +23,25 @@ function Sistema(test) {
     }
     return res;
   };
+//   this.agregarUsuario = function (usr) {
+//     let res = { "email": -1 };
+
+
+//     if (usr && usr.email) {
+//         let email = usr.email;
+//         let nick = usr.nick;
+
+//         if (!this.usuarios[email]) {
+//             this.usuarios[email] = new Usuario(usr);
+//             res.email = email;
+//             console.log("Nuevo usuario en el sistema: " + email);
+//         } else {
+//             console.log("El email " + email + " está en uso");
+//         }
+//     }
+
+//     return res;
+// };
   this.usuarioGoogle = function (usr, callback) {
     let modelo = this;
     this.cad.buscarOCrearUsuario(usr, function (res) {
@@ -45,7 +64,7 @@ function Sistema(test) {
     this.cad.buscarUsuario(obj, function (usr) {
       if (!usr) {
         obj.key = Date.now().toString();
-        obj.confirmada = true; // false;
+        obj.confirmada = false; // false;
 
         // Hashear la contraseña antes de insertarla en la base de datos
         bcrypt.hash(obj.password, 10, function (err, hash) {
@@ -59,7 +78,7 @@ function Sistema(test) {
               callback(res);
             });
             if (!modelo.test) {
-              //correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+              correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
             }
           }
         });
@@ -68,6 +87,10 @@ function Sistema(test) {
       }
     });
   };
+
+  correo.conectar(function(){
+    console.log("Variables secretas obtenidas");
+})
 
   this.loginUsuario = function (obj, callback) {
     let modelo = this;
@@ -121,7 +144,7 @@ function Sistema(test) {
     });
   };
   this.obtenerLogs = function (callback) {
-    this.cad.bucarLogs(function (lista) {
+    this.cad.buscarLogs(function (lista) {
       callback(lista);
     });
   };
@@ -152,23 +175,17 @@ function Sistema(test) {
   };
 
   this.crearPartida = function (email) {
-    // Si existe el usuario con el email proporcionado en usuarios activos, entonces:
     if (this.usuarios.hasOwnProperty(email)) {
-      // Obtener un código único
+
       const codigoPartida = this.obtenerCodigo();
-      // Crear la partida con el constructor Partida
       const nuevaPartida = new Partida(codigoPartida);
 
-      // Agregar al usuario como primer jugador de la partida
       nuevaPartida.jugadores.push(this.usuarios[email]);
       nuevaPartida.sistema=this
 
-      // Incluir la nueva partida en la colección
       this.partidas.push(nuevaPartida);
 
-      // Asignar al usuario como jugador de la partida
       this.usuarios[email].partidaActual = codigoPartida;
-
 
       console.log(`Partida creada con código: ${codigoPartida}`);
       return codigoPartida;

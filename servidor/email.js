@@ -46,3 +46,4 @@ module.exports.enviarEmail = async function (direccion, key, men) {
 
   console.log(JSON.stringify(result, null, 4));
 };
+ 
