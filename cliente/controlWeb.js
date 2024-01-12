@@ -28,7 +28,7 @@ function ControlWeb() {
   this.init = function () {
     let cw = this;
     google.accounts.id.initialize({
-      client_id:
+      client_id: //"259650379862-kc0j05v4s83djch10c8a382n5qa85761.apps.googleusercontent.com",
         "259650379862-ucl3mbm85f5tmou8v2lqd0idpp8ntocp.apps.googleusercontent.com", //prod
       auto_select: false,
       callback: cw.handleCredentialsResponse,

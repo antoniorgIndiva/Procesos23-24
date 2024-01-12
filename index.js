@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const args = process.argv.slice(2);
 const haIniciado = function (request, response, next) {
-  console.log({ request });
   if (request.user) {
     next();
   } else {
