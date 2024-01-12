@@ -29,7 +29,7 @@ function ControlWeb() {
     let cw = this;
     google.accounts.id.initialize({
       client_id:
-        "259650379862-gkh4hvjdp1ku5v4grv1u77name2k9hlv.apps.googleusercontent.com", //prod
+        "259650379862-ucl3mbm85f5tmou8v2lqd0idpp8ntocp.apps.googleusercontent.com", //prod
       auto_select: false,
       callback: cw.handleCredentialsResponse,
     });
