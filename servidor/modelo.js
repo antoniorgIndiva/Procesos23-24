@@ -47,7 +47,7 @@ function Sistema(test) {
     this.cad.buscarOCrearUsuario(usr, function (res) {
       callback(res);
       modelo.agregarUsuario(usr);
-      modelo.cad.insertarLog({"tipo":"google","usr":res.email,"fecha":new Date()})
+      modelo.cad.insertarLog({"tipo":"google","usr":res.email,"fecha":new Date()},function(){})
     });
   };
   this.usuarioGithub = function (usr, callback) {

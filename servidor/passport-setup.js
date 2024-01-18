@@ -31,6 +31,7 @@ passport.use(
       //clientID: "259650379862-kc0j05v4s83djch10c8a382n5qa85761.apps.googleusercontent.com", //local
       //clientSecret: "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", //local
       verifyCsrfToken: false, // whether to validate the csrf token or not
+
     },
     function (profile, done) {
       // Here your app code, for example:
