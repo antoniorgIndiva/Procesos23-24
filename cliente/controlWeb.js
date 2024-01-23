@@ -76,12 +76,22 @@ function ControlWeb() {
         let pwd = $("#pwd").val();
         if (email && pwd) {
           rest.loginUsuario(email, pwd);
+          verificarUsuarioYMostrarElemento(email);
         } else {
           rest.datosErroneos();
         }
       });
     });
   };
+
+  function verificarUsuarioYMostrarElemento(emailUsuario) {
+    const emailEspecifico = "antonio.romero13@alu.uclm.es"; 
+    if (emailUsuario === emailEspecifico) {
+        document.getElementById("controlLogsMenu").style.display = "block";
+    }
+}
+
+
   this.mostrarJuego = function () {
     this.limpiar();
     $("#juego").load("./cliente/juego.html", function () {
