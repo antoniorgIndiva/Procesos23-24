@@ -98,14 +98,11 @@ function ControlWeb() {
     this.limpiar();
     if (!$.cookie("email")) return true;
 
-    // Cargar la estructura de la tabla
     $("#logs").load("./cliente/controlLog.html", function () {
-      // Una vez cargada la tabla, obtener y mostrar los logs
       $.ajax({
         url: "/obtenerLogs",
         type: "GET",
         success: function (listaLogs) {
-          // Llamar a la función para llenar la tabla con los datos obtenidos
           llenarTablaConLogs(listaLogs);
         },
         error: function (error) {
@@ -114,17 +111,21 @@ function ControlWeb() {
       });
     });
   };
-  
-   function llenarTablaConLogs (datos) {
-    var tabla = $('#tablaLogins tbody');
-    tabla.empty(); // Limpiar la tabla antes de añadir nuevos datos
 
-    datos.forEach(function(log) {
-        var fila = $('<tr></tr>');
-        fila.append('<td>' + log.tipo + '</td>');
-        fila.append('<td>' + log.usr + '</td>');
-        fila.append('<td>' + new Date(log.fecha).toLocaleString() + '</td>'); // Formatear la fecha
-        tabla.append(fila);
+  function llenarTablaConLogs(datos) {
+    datos.sort(function (a, b) {
+      return new Date(b.fecha) - new Date(a.fecha);
     });
-}
+
+    var tabla = $("#tablaLogins tbody");
+    tabla.empty();
+
+    datos.forEach(function (log) {
+      var fila = $("<tr></tr>");
+      fila.append("<td>" + log.tipo + "</td>");
+      fila.append("<td>" + log.usr + "</td>");
+      fila.append("<td>" + new Date(log.fecha).toLocaleString() + "</td>");
+      tabla.append(fila);
+    });
+  }
 }
