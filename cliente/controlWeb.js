@@ -48,7 +48,8 @@ function ControlWeb() {
     $("#fmLogin").remove();
     $("#fmRegistro").remove();
     $("#partidasDisponibles").remove();
-
+    $("#blackjack").remove();
+    $("#miHojaDeEstilos").prop('disabled', true);
 
   };
   this.mostrarRegistro = function () {

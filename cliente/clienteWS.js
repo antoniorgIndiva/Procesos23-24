@@ -11,9 +11,16 @@ function ClienteWS() {
     this.socket.on("partidaCreada", function (datos) {
       console.log(datos.codigo);
       ws.codigo = datos.codigo;
+      $("#miHojaDeEstilos").prop('disabled', false);
       //Mostrar esperando a rival
-      $("#contenidoJuego").load("/cliente/blackjack.html");
       cw.limpiar();
+      $("#contenidoJuego").load("/cliente/blackjack.html", function () {
+        $("#btnAbandonar").on("click", function () {
+          ws.abandonarPartida();
+          cw.limpiar()
+          cw.mostrarJuego()
+        });
+      });
     });
     this.socket.on("listaPartidas", function (lista) {
       console.log(lista);
@@ -86,8 +93,8 @@ function ClienteWS() {
           });
         });
       }
-    }else{
-      return true
+    } else {
+      return true;
     }
   };
 }
