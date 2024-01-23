@@ -148,7 +148,11 @@ app.get("/obtenerUsuariosDB",haIniciado, function (request, response) {
     response.send(lista)
   })
 });
-
+app.get("/obtenerLogs", haIniciado, function (request, response) {
+  sistema.obtenerLogs(function(lista){
+    response.send(lista)
+  })
+});
 
 app.get("/obtenerUsuarios", haIniciado, function (request, response) {
   let lista = sistema.obtenerUsuarios();
@@ -186,6 +190,8 @@ httpServer.listen(PORT, () => {
   console.log(`App está escuchando en el puerto ${PORT}`);
   console.log("Ctrl+C para salir");
 });
+
+
 app.get("/confirmarUsuario/:email/:key", function (request, response) {
   let email = request.params.email;
   let key = request.params.key;

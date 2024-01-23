@@ -1,5 +1,4 @@
 function ControlWeb() {
-
   this.mostrarMsg = function (msg) {
     $("mMsg").remove();
     let cadena = '<h6 id="mMsg">' + msg + "</h6>";
@@ -10,25 +9,26 @@ function ControlWeb() {
     let email = $.cookie("email");
     if (email) {
       //cw.mostrarMsg("Bienvenido al sistema, " + email);
-      rest.comprobarUsuario(email)
+      rest.comprobarUsuario(email);
     } else {
       // cw.mostrarAgregarUsuario();
       //cw.mostrarRegistro();
-      cw.mostrarLogin()
+      cw.mostrarLogin();
       //cw.init();
     }
   };
-  this.salir=function(){
+  this.salir = function () {
     //localStorage.removeItem("nick");
     $.removeCookie("email");
     location.reload();
     rest.cerrarSesion();
-    }
+  };
 
   this.init = function () {
     let cw = this;
     google.accounts.id.initialize({
-      client_id: //"259650379862-kc0j05v4s83djch10c8a382n5qa85761.apps.googleusercontent.com",
+      //"259650379862-kc0j05v4s83djch10c8a382n5qa85761.apps.googleusercontent.com",
+      client_id:
         "259650379862-ucl3mbm85f5tmou8v2lqd0idpp8ntocp.apps.googleusercontent.com", //prod
       auto_select: false,
       callback: cw.handleCredentialsResponse,
@@ -49,12 +49,12 @@ function ControlWeb() {
     $("#fmRegistro").remove();
     $("#partidasDisponibles").remove();
     $("#blackjack").remove();
-    $("#miHojaDeEstilos").prop('disabled', true);
-
+    $("#tablaLogins").remove();
+    $("#miHojaDeEstilos").prop("disabled", true);
   };
   this.mostrarRegistro = function () {
     if ($.cookie("email")) return true;
-    this.limpiar()
+    this.limpiar();
     $("#registro").load("./cliente/registro.html", function () {
       $("#btnRegistro").on("click", function () {
         let email = $("#email").val();
@@ -63,16 +63,14 @@ function ControlWeb() {
           rest.registrarUsuario(email, pwd);
           console.log(email + " " + pwd);
         }
-        
       });
     });
   };
   this.mostrarLogin = function () {
     if ($.cookie("email")) return true;
-    this.limpiar()
+    this.limpiar();
     $("#registro").load("./cliente/login.html", function () {
-      $("#btnLogin").on("click", function (event) 
-      {
+      $("#btnLogin").on("click", function (event) {
         event.preventDefault();
         let email = $("#email").val();
         let pwd = $("#pwd").val();
@@ -85,17 +83,48 @@ function ControlWeb() {
     });
   };
   this.mostrarJuego = function () {
-    this.limpiar()
+    this.limpiar();
     $("#juego").load("./cliente/juego.html", function () {
-      $("#btnCrearPartida").on("click", function () 
-      {
-        ws.crearPartida()
+      $("#btnCrearPartida").on("click", function () {
+        ws.crearPartida();
       });
-      $("#btnEliminarPartida").on("click", function () 
-      {
-        ws.abandonarPartida()
+      $("#btnEliminarPartida").on("click", function () {
+        ws.abandonarPartida();
       });
     });
+  };
 
-  }
+  this.mostrarLogs = function () {
+    this.limpiar();
+    if (!$.cookie("email")) return true;
+
+    // Cargar la estructura de la tabla
+    $("#logs").load("./cliente/controlLog.html", function () {
+      // Una vez cargada la tabla, obtener y mostrar los logs
+      $.ajax({
+        url: "/obtenerLogs",
+        type: "GET",
+        success: function (listaLogs) {
+          // Llamar a la función para llenar la tabla con los datos obtenidos
+          llenarTablaConLogs(listaLogs);
+        },
+        error: function (error) {
+          console.error("Error al obtener los logs: ", error);
+        },
+      });
+    });
+  };
+  
+   function llenarTablaConLogs (datos) {
+    var tabla = $('#tablaLogins tbody');
+    tabla.empty(); // Limpiar la tabla antes de añadir nuevos datos
+
+    datos.forEach(function(log) {
+        var fila = $('<tr></tr>');
+        fila.append('<td>' + log.tipo + '</td>');
+        fila.append('<td>' + log.usr + '</td>');
+        fila.append('<td>' + new Date(log.fecha).toLocaleString() + '</td>'); // Formatear la fecha
+        tabla.append(fila);
+    });
+}
 }
