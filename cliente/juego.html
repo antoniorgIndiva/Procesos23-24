@@ -2,13 +2,13 @@
   <h2>Partidas Disponibles</h2>
   <div class="crear-partida-section mt-2">
     <p>Crea tu propia partida</p>
-          <!-- onclick="mostrarCargando()" -->
+    <!-- onclick="mostrarCargando()" -->
 
-    <button
-      class="crear-partida-btn"
-      id="btnCrearPartida"
-    >
+    <button class="crear-partida-btn" id="btnCrearPartida">
       Crear Partida Individual
+    </button>
+    <button class="" id="btnCrearPartidaMultijugador" disabled>
+      Crear Partida Multijugador
     </button>
   </div>
 
@@ -64,93 +64,103 @@
       <tbody id="tablaPartidasBody"></tbody>
     </table>
   </div>
-  <div style="margin-top: 10px; font-size: 12px;text-align: center;">
+  <div style="margin-top: 10px; font-size: 12px; text-align: center">
     * Las partidas en dorado fueron creadas por ti.
   </div>
 </div>
 
-
 <style>
-  #partidasDisponibles {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+      #partidasDisponibles {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      h2 {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px;
+        margin: 0;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+      }
+
+      .partidas-table-container {
+        overflow: auto;
+      }
+
+      .partidas-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      button {
+        padding: 8px 12px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+      button:disabled {
+      background-color: #cccccc; /* Color de fondo para el botón deshabilitado */
+      color: #666666; /* Color del texto para el botón deshabilitado */
+      cursor: not-allowed; /* Cambiar el cursor para indicar que el botón está deshabilitado */
+      border: 1px solid #999999; /* Borde opcional para el botón deshabilitado */
   }
 
-  h2 {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px;
-    margin: 0;
-    text-align: center;
-    border-radius: 8px 8px 0 0;
+  button:disabled:hover {
+      background-color: #cccccc; /* Mantener el mismo color de fondo al pasar el mouse */
   }
 
-  .partidas-table-container {
-    overflow: auto;
-  }
 
-  .partidas-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
+      .crear-partida-section {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-  }
+      .crear-partida-section p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
 
-  th {
-    background-color: #f2f2f2;
-  }
-
-  button {
-    padding: 8px 12px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #45a049;
-  }
-
-  .crear-partida-section {
-    text-align: center;
-    margin-bottom: 20px; 
-  }
-
-  .crear-partida-section p {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-
-  .partida-creada-por-usuario {
-  background-color: #edd4a2; /
-}
+      .partida-creada-por-usuario {
+      background-color: #edd4a2; /
+    }
 
 
- 
-  button.crear-partida-btn {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
 
-  button.crear-partida-btn:hover {
-    background-color: #0056b3;
-  }
+      button.crear-partida-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button.crear-partida-btn:hover {
+        background-color: #0056b3;
+      }
 </style>
 
 <script>
@@ -159,7 +169,6 @@
     // Muestra el contenedor de carga
     document.getElementById("contenedorCargando").style.display = "flex";
     // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
-
   }
   function cancelarPartida() {
     // Oculta el contenedor de carga
