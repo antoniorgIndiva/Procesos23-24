@@ -85,12 +85,11 @@ function ControlWeb() {
   };
 
   function verificarUsuarioYMostrarElemento(emailUsuario) {
-    const emailEspecifico = "antonio.romero13@alu.uclm.es"; 
+    const emailEspecifico = "antonio.romero13@alu.uclm.es";
     if (emailUsuario === emailEspecifico) {
-        document.getElementById("controlLogsMenu").style.display = "block";
+      document.getElementById("controlLogsMenu").style.display = "block";
     }
-}
-
+  }
 
   this.mostrarJuego = function () {
     this.limpiar();
@@ -98,12 +97,23 @@ function ControlWeb() {
       $("#btnCrearPartida").on("click", function () {
         ws.crearPartida();
       });
+      $("#btnCrearPartidaIndividual").click(function () {
+        crearPartida("individual");
+      });
       $("#btnEliminarPartida").on("click", function () {
         ws.abandonarPartida();
       });
     });
   };
-
+  function crearPartida(tipoPartida) {
+    if (tipoPartida === "individual") {
+      ws.tipoPartida="individual"
+      ws.crearPartida()
+    } else {
+      ws.tipoPartida="multijugador"
+      ws.crearPartida()
+    }
+  }
   this.mostrarLogs = function () {
     this.limpiar();
     if (!$.cookie("email")) return true;

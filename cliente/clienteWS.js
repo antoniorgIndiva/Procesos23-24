@@ -2,6 +2,7 @@ function ClienteWS() {
   this.socket;
   this.email;
   this.codigo;
+  this.tipoPartida
   this.partidas = [];
   this.lanzarServidorWS = function () {
     let cli = this;
@@ -38,7 +39,7 @@ function ClienteWS() {
     });
   };
   this.crearPartida = function () {
-    this.socket.emit("crearPartida", { email: this.email });
+    this.socket.emit("crearPartida", { email: this.email , tipoPartida:this.tipoPartida});
   };
   this.unirPartida = function (codigo) {
     this.socket.emit("unirPartida", { email: this.email, codigo: codigo });

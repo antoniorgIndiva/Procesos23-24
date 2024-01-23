@@ -14,7 +14,7 @@ function ServidorWS() {
     io.on("connection", function (socket) {
       console.log("Capa WS activa");
       socket.on("crearPartida", function (datos) {
-        let codigo = sistema.crearPartida(datos.email);
+        let codigo = sistema.crearPartida(datos.email,datos.tipoPartida);
         if (codigo != -1) {
           socket.join(codigo);
         }

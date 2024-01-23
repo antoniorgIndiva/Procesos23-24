@@ -174,7 +174,7 @@ function Sistema(test) {
     return res;
   };
 
-  this.crearPartida = function (email) {
+  this.crearPartida = function (email,tipoPartida) {
     if (this.usuarios.hasOwnProperty(email)) {
 
       const codigoPartida = this.obtenerCodigo();
@@ -184,6 +184,13 @@ function Sistema(test) {
       nuevaPartida.sistema=this
 
       this.partidas.push(nuevaPartida);
+      if (tipoPartida==="individual"){
+        this.partidas.forEach(partidas => {
+          if (partidas.codigo == codigoPartida){
+            partidas.maxJug=1
+          }
+        })
+      }
 
       this.usuarios[email].partidaActual = codigoPartida;
 
