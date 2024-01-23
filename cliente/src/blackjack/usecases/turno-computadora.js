@@ -1,5 +1,7 @@
-import { pedirCarta,valorCarta,crearCartaHTML } from "./";
-
+//import { pedirCarta,valorCarta,crearCartaHTML } from "./";
+import {pedirCarta} from './pedir-carta.js';
+import {valorCarta} from './valor-carta.js';
+import {crearCartaHTML} from './crear-carta-HTML.js';
 
 /**
  * 

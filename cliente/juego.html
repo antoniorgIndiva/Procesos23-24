@@ -2,10 +2,11 @@
   <h2>Partidas Disponibles</h2>
   <div class="crear-partida-section mt-2">
     <p>Crea tu propia partida</p>
+          <!-- onclick="mostrarCargando()" -->
+
     <button
       class="crear-partida-btn"
       id="btnCrearPartida"
-      onclick="mostrarCargando()"
     >
       Crear Partida
     </button>
@@ -63,10 +64,11 @@
       <tbody id="tablaPartidasBody"></tbody>
     </table>
   </div>
-</div>
-<div style="margin-top: 10px; font-size: 12px;text-align: center;">
+  <div style="margin-top: 10px; font-size: 12px;text-align: center;">
     * Las partidas en dorado fueron creadas por ti.
   </div>
+</div>
+
 
 <style>
   #partidasDisponibles {
@@ -123,7 +125,7 @@
 
   .crear-partida-section {
     text-align: center;
-    margin-bottom: 20px; /* Espaciado inferior para separar del contenido de la tabla */
+    margin-bottom: 20px; 
   }
 
   .crear-partida-section p {
@@ -136,7 +138,7 @@
 }
 
 
-  /* Estilos para el botón de crear partida */
+ 
   button.crear-partida-btn {
     background-color: #007bff;
     color: #fff;
@@ -157,6 +159,7 @@
     // Muestra el contenedor de carga
     document.getElementById("contenedorCargando").style.display = "flex";
     // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
+
   }
   function cancelarPartida() {
     // Oculta el contenedor de carga

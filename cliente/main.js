@@ -1,2 +1,3 @@
-import './src/blackjack';
-import './style.css';
+import * as Blackjack from './src/blackjack/index.js';
+
+//import './style.css';

@@ -52,8 +52,8 @@ function ControlWeb() {
 
   };
   this.mostrarRegistro = function () {
-    $("#fmRegistro").remove();
-    $("#fmLogin").remove();
+    if ($.cookie("email")) return true;
+    this.limpiar()
     $("#registro").load("./cliente/registro.html", function () {
       $("#btnRegistro").on("click", function () {
         let email = $("#email").val();

@@ -1,8 +1,16 @@
-import _ from 'underscore';
-//import {crearDeck} from './usecases/crear-deck';
-//import {pedirCarta} from './usecases/pedir-carta';
-//import {valorCarta} from './usecases/valor-carta';
-import {crearDeck,pedirCarta,valorCarta,turnoComputadora,crearCartaHTML} from './usecases';
+//const _ = require('underscore');
+//const underscore = require("underscore");
+
+import {crearDeck} from './usecases/crear-deck.js';
+import {pedirCarta} from './usecases/pedir-carta.js';
+import {valorCarta} from './usecases/valor-carta.js';
+import {turnoComputadora} from './usecases/turno-computadora.js';
+import {crearCartaHTML} from './usecases/crear-carta-HTML.js';
+
+//import {crearDeck,pedirCarta,valorCarta,turnoComputadora,crearCartaHTML} from './usecases';
+
+export { crearDeck, pedirCarta, valorCarta, turnoComputadora, crearCartaHTML };
+
 /**
  * 2C = Two of Clubs
  * 2D = Two of Diamonds
