@@ -66,17 +66,14 @@ function ClienteWS() {
       tbody.innerHTML = "";
 
       if (!this.partidas || this.partidas.length === 0) {
-        // Si no hay partidas, muestra un mensaje en una fila especial
         var noPartidasRow = document.createElement("tr");
         noPartidasRow.innerHTML = `
         <td colspan="3">No hay partidas disponibles.</td>
       `;
         tbody.appendChild(noPartidasRow);
       } else {
-        // Si hay partidas, itera sobre ellas y agrega filas a la tabla
         this.partidas.forEach(function (partida) {
           var row = document.createElement("tr");
-          // Añadir una clase "partida-creada-por-usuario" si el usuario es el creador
           if (partida.creador === ws.email) {
             row.classList.add("partida-creada-por-usuario");
           }
@@ -88,7 +85,6 @@ function ClienteWS() {
           tbody.appendChild(row);
         });
 
-        // Agrega un evento de clic a los botones de unirse
         this.partidas.forEach(function (partida) {
           $("#btnUnirPartida_" + partida.codigo).on("click", function () {
             ws.unirPartida(partida.codigo.toString());

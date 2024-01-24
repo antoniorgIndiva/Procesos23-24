@@ -61,7 +61,6 @@ function ControlWeb() {
         let pwd = $("#pwd").val();
         if (email && pwd) {
           rest.registrarUsuario(email, pwd);
-          console.log(email + " " + pwd);
         }
       });
     });
