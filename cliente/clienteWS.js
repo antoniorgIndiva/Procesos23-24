@@ -16,6 +16,7 @@ function ClienteWS() {
       //Mostrar esperando a rival
       cw.limpiar();
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
+        $("#modalCrearPartidaIndividual").show();
         $("#btnAbandonar").on("click", function () {
           ws.abandonarPartida();
           cw.limpiar()

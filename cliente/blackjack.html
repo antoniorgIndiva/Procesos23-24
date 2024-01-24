@@ -1,46 +1,161 @@
-<link rel="stylesheet" href="/cliente/style.css" id="miHojaDeEstilos">
+<link rel="stylesheet" href="/cliente/style.css" id="miHojaDeEstilos" />
 
 <div id="blackjack">
-    <header class="titulo">
-      Blackjack
-    </header>
-  
-    <div class="row mt-2">
-      <div id="divBotones" class="col text-center">
+  <header class="titulo">Blackjack</header>
 
-          <button id="btnNuevo" class="btn btn-danger">Nuevo Juego</button>
-          <button id="btnPedir" class="btn btn-primary">Pedir carta</button>
-          <button id="btnDetener" class="btn btn-primary">Detener</button>
-          <button id="btnAbandonar" class="btn btn-danger">Abandonar</button>
-
-      </div>
+  <div class="row mt-2">
+    <div id="divBotones" class="col text-center">
+      <button id="btnNuevo" class="btn btn-danger">Nueva Ronda</button>
+      <button id="btnPedir" class="btn btn-primary">Pedir carta</button>
+      <button id="btnDetener" class="btn btn-primary">Detener</button>
+      <button id="btnAbandonar" class="btn btn-danger">Abandonar</button>
     </div>
-
-    <div class="row container">
-      <div class="col">
-
-          <h1>Jugador 1 - <small>0</small></h1>
-          <div id="jugador-cartas">
-              <!-- <img class="carta" src="assets/cartas/2C.png"> -->
-          </div>
-
-      </div>
-    </div>
-
-    <div class="row container mt-2">
-      <div class="col">
-
-          <h1>Computadora - <small>0</small></h1>
-          <div id="computadora-cartas">
-              <!-- <img class="carta" src="assets/cartas/3C.png"> -->
-          </div>
-
-      </div>
-    </div>
-
-
-    <div id="app"></div>
-    <script type="module" src="/cliente/main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
-
   </div>
+
+  <div class="row container">
+    <div class="col">
+      <h1>Jugador 1 - <small>0</small></h1>
+      <div id="jugador-cartas">
+        <!-- <img class="carta" src="assets/cartas/2C.png"> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row container mt-2">
+    <div class="col">
+      <h1>Computadora - <small>0</small></h1>
+      <div id="computadora-cartas">
+        <!-- <img class="carta" src="assets/cartas/3C.png"> -->
+      </div>
+    </div>
+  </div>
+
+  <div id="app"></div>
+  <script type="module" src="/cliente/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+</div>
+
+<div
+  class="modal"
+  id="modalCrearPartidaIndividual"
+  style="display: none"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Instrucciones</h5>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Reglas Básicas del Blackjack</h4>
+        <p>El Blackjack es un juego de cartas en el que el objetivo es obtener una mano cuyo valor sea lo más cercano posible a 21, sin pasarse.</p>
+        <p>Para empezar a jugar debes:</p>
+        <ul>
+          <li>Pedir una carta</li>
+          <li>El As puede valer 10 u 11 puntos, dependiendo de cuál sea más beneficioso para la mano.</li>
+          <li>El jugador puede pedir más cartas (Pedir Carta) o mantener su mano actual (Detener).</li>
+          <li>El jugador que obtiene un total de 21 tiene un "Blackjack" y gana automáticamente.</li>
+          <li>La computadora recibe sus cartas cuando el jugador detiene.</li>
+          <li>El jugador que esté más cerca de 21 sin pasarse gana la mano.</li>
+        </ul>
+        <p>Estas son las reglas básicas del Blackjack. ¡Disfruta del juego!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCerrarModal" onclick="cerrarModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<style>
+    #blackjackRulesModal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        background-color: rgba(0, 0, 0, 0.6); 
+    }
+
+    .modal-content {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        width:170% ;     
+        /* max-width:100%; */
+        margin: 0 auto;
+        color: #333333; 
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .modal-header {
+        margin-bottom: 5px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #dddddd;
+        justify-content: space-between;
+    }
+
+    .modal-title {
+        font-size: 2em; 
+        margin: 0;
+    }
+
+    .modal-body {
+        font-size: 1.1em; 
+        line-height: 1.6; 
+    }
+
+    .modal-footer {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid #dddddd; 
+        text-align: right; 
+    }
+
+    .modal-footer button {
+        background-color: #007bff; 
+        color: #ffffff; 
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px; 
+        cursor: pointer; 
+        transition: background-color 0.2s ease-in-out; 
+    }
+
+    .modal-footer button:hover {
+        background-color: #0056b3;
+    }
+
+    .close {
+        cursor: pointer;
+        float: right; 
+        font-size: 1.2em; 
+        color: #aaaaaa;
+    }
+
+    .close:hover {
+        color: #f00; 
+    }
+</style>
+
+<script>
+  function cerrarModal() {
+    var modal = document.getElementById('modalCrearPartidaIndividual');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+</script>
+

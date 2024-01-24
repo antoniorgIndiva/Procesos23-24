@@ -220,7 +220,6 @@ function Sistema(test) {
   
 
   this.abandonarPartida = function (email, codigo) {
-    console.log({email,codigo})
     const usuario = this.usuarios.hasOwnProperty(email)
       ? this.usuarios[email]
       : null;  
