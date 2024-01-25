@@ -256,6 +256,18 @@ function Sistema(test) {
     //recorrer el array asociativo
     //crear una lista
   };
+  this.obtenerTodasPartidas = function () {
+    const partidasDisponibles = [];
+    this.partidas.forEach((partidas) => {
+        partidasDisponibles.push({
+          creador: partidas.jugadores[0].email,
+          codigo: partidas.codigo,
+          jugadores:partidas.jugadores,
+          maxJug:partidas.maxJug
+        });
+    });
+    return partidasDisponibles;
+  };
 
   this.unirAPartida = function (email,codigo) {
     const usuario = this.usuarios.hasOwnProperty(email)
@@ -277,6 +289,7 @@ function Sistema(test) {
 
       usuario.partidaActual = codigo;
       console.log(`Usuario ${email} unido a la partida ${codigo}`);
+      console.log("jug ", partida.jugadores)
       return codigo;
     } else if (partida && partida.jugadores.length >= partida.maxJug) {
       console.log(`La partida ${codigo} está llena. No se puede unir.`);

@@ -20,8 +20,10 @@ function ServidorWS() {
         }
         srv.enviarAlRemitente(socket, "partidaCreada", { codigo: codigo });
         let lista = sistema.obtenerPartidasDisponibles();
+        let todas = sistema.obtenerTodasPartidas()
         //srv.enviarATodosMenosRemitente(socket, "listaPartidas", lista);
         srv.enviarGlobal(io, "listaPartidas", lista);
+        srv.enviarGlobal(io, "todasPartidas", todas);
 
       });
       socket.on("unirPartida",function(datos){
@@ -31,8 +33,10 @@ function ServidorWS() {
         }
         srv.enviarAlRemitente(socket, "unidoPartida", { codigo: codigo });
         let lista = sistema.obtenerPartidasDisponibles();
+        let todas = sistema.obtenerTodasPartidas()
         //srv.enviarATodosMenosRemitente(socket, "listaPartidas", lista);
         srv.enviarGlobal(io, "listaPartidas", lista);
+        srv.enviarGlobal(io, "todasPartidas", todas);
 
       })
       socket.on("abandonarPartida",function(datos){
@@ -52,6 +56,12 @@ function ServidorWS() {
         socket.leave(datos.codigo)
         //enviar a todos la lista de partidas
         srv.enviarGlobal(io, "listaPartidas", lista);
+      })
+      socket.on("todasPartidas",function(datos){
+        let lista = sistema.obtenerTodasPartidas();
+        srv.enviarAlRemitente(socket, "todasPartidas",null);
+        socket.leave(datos.codigo)
+        srv.enviarGlobal(io, "todasPartidas", lista);
       })
     });
   };

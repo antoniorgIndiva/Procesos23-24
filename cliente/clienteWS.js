@@ -2,44 +2,51 @@ function ClienteWS() {
   this.socket;
   this.email;
   this.codigo;
-  this.tipoPartida
+  this.tipoPartida;
   this.partidas = [];
+  this.todasPartidas=[]
   this.lanzarServidorWS = function () {
     let cli = this;
     this.socket.on("connect", function () {
       console.log("Usuario conectado al servidor de WebSockets");
     });
     this.socket.on("partidaCreada", function (datos) {
-      console.log(datos.codigo);
       ws.codigo = datos.codigo;
-      $("#miHojaDeEstilos").prop('disabled', false);
+      $("#miHojaDeEstilos").prop("disabled", false);
       //Mostrar esperando a rival
       cw.limpiar();
+      cli.obtenerTodasPartidas()
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
+        cli.actualizarInformacionJugador(datos.codigo);
+        // $("#codigo-partida").text("Código de la partida: " + datos.codigo);
         $("#modalCrearPartidaIndividual").show();
         $("#btnAbandonar").on("click", function () {
           ws.abandonarPartida();
-          cw.limpiar()
-          cw.mostrarJuego()
+          cw.limpiar();
+          cw.mostrarJuego();
         });
       });
     });
+    this.socket.on("todasPartidas", function (lista) {
+      cli.todasPartidas = lista;
+    });
     this.socket.on("listaPartidas", function (lista) {
-      console.log(lista);
       cli.partidas = lista;
       cli.renderizarTablaPartidas();
       //cw Mostrar lista partidas
     });
     this.socket.on("unidoPartida", function (datos) {
-      console.log(datos.codigo);
       ws.codigo = datos.codigo;
-      cw.limpiar()
+      cw.limpiar();
+      // cli.actualizarInformacionJugador(datos.codigo)
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
+        console.log(datos.codigo)
+        cli.actualizarInformacionJugador(datos.codigo);
         $("#modalCrearPartidaIndividual").show();
         $("#btnAbandonar").on("click", function () {
           ws.abandonarPartida();
-          cw.limpiar()
-          cw.mostrarJuego()
+          cw.limpiar();
+          cw.mostrarJuego();
         });
       });
     });
@@ -49,13 +56,19 @@ function ClienteWS() {
     });
   };
   this.crearPartida = function () {
-    this.socket.emit("crearPartida", { email: this.email , tipoPartida:this.tipoPartida});
+    this.socket.emit("crearPartida", {
+      email: this.email,
+      tipoPartida: this.tipoPartida,
+    });
   };
   this.unirPartida = function (codigo) {
     this.socket.emit("unirPartida", { email: this.email, codigo: codigo });
   };
   this.listaPartidas = function () {
     this.socket.emit("listaPartidas", { email: this.email });
+  };
+  this.obtenerTodasPartidas = function () {
+    this.socket.emit("todasPartidas", { email: this.email });
   };
   this.abandonarPartida = function () {
     this.socket.emit("abandonarPartida", {
@@ -68,6 +81,24 @@ function ClienteWS() {
     this.lanzarServidorWS();
   };
   this.conectar();
+
+  this.actualizarInformacionJugador = function (codigo) {
+    this.todasPartidas.forEach((partida) => {
+      console.log(this.todasPartidas)
+        if (partida.codigo == codigo) {
+          console.log("estoy", partida)
+            document.getElementById("nombreJugador1").innerHTML =
+                partida.jugadores[0].email || "Jugador 1";
+            if (partida.jugadores.length == 2) {
+                document.getElementById("nombreJugador2").innerHTML =
+                  partida.jugadores[1].email || "Computadora";
+            }
+        }
+    });
+    document.getElementById("codigo-partida").innerHTML = 
+    "Código de la partida: " + codigo;
+};
+
 
   this.renderizarTablaPartidas = function () {
     var tbody = document.getElementById("tablaPartidasBody");
