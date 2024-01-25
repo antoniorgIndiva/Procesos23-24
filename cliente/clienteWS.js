@@ -33,6 +33,15 @@ function ClienteWS() {
     this.socket.on("unidoPartida", function (datos) {
       console.log(datos.codigo);
       ws.codigo = datos.codigo;
+      cw.limpiar()
+      $("#contenidoJuego").load("/cliente/blackjack.html", function () {
+        $("#modalCrearPartidaIndividual").show();
+        $("#btnAbandonar").on("click", function () {
+          ws.abandonarPartida();
+          cw.limpiar()
+          cw.mostrarJuego()
+        });
+      });
     });
     this.socket.on("partidaAbandonada", function () {
       ws.codigo = undefined; // el pone cli
