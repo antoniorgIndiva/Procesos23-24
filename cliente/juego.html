@@ -7,7 +7,7 @@
     <button class="crear-partida-btn" id="btnCrearPartidaIndividual">
       Crear Partida Individual
     </button>
-    <button class="" id="btnCrearPartidaMultijugador" disabled>
+    <button class="crear-partida-btn" id="btnCrearPartidaMultijugador" >
       Crear Partida Multijugador
     </button>
   </div>
@@ -177,9 +177,6 @@
 
   var cliente = new ClienteWS();
 
-  // Llama al método para obtener la lista de partidas
   cliente.listaPartidas();
-
-  // Llama al método para renderizar la tabla con la lista de partidas
   cliente.renderizarTablaPartidas();
 </script>

@@ -99,6 +99,9 @@ function ControlWeb() {
       $("#btnCrearPartidaIndividual").click(function () {
         crearPartida("individual");
       });
+      $("#btnCrearPartidaMultijugador").click(function () {
+        crearPartida("multijugador");
+      });
       $("#btnEliminarPartida").on("click", function () {
         ws.abandonarPartida();
       });
