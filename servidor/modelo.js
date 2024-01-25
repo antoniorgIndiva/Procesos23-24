@@ -16,7 +16,6 @@ function Sistema(test) {
       if (res.nick == undefined) {
         res.nick = email; //por si se inicia con github
       }
-      //modelo.cad.insertarLog({"tipo":"local","usr":email,"fecha":new Date()})
 
     } else {
       console.log("el email " + email + " está en uso");
@@ -106,6 +105,7 @@ function Sistema(test) {
               // Contraseña válida
               callback(usr);
               modelo.agregarUsuario(usr);
+              modelo.cad.insertarLog({"tipo":"local","usr":usr.email,"fecha":new Date()},function(){})
             } else {
               // Contraseña incorrecta
               callback({ email: -1 });
