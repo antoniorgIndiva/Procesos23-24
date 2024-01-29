@@ -18,6 +18,9 @@ function ClienteWS() {
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
         cli.actualizarInformacionJugador(datos.codigo);
         $("#modalCrearPartidaIndividual").show();
+        if(cli.tipoPartida==="individual") {
+          document.getElementById('contenedorCargando').style.display = 'none';
+        }
         $("#btnAbandonar").on("click", function () {
           ws.abandonarPartida();
           cw.limpiar();
