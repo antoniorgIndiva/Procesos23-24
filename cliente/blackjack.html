@@ -13,11 +13,10 @@
   </div>
   <div id="codigo-partida"></div>
 
-
   <div class="row container">
     <div class="col">
       <h1><span id="nombreJugador1">Jugador 1</span> - <small>0</small></h1>
-            <div id="jugador-cartas">
+      <div id="jugador-cartas">
         <!-- <img class="carta" src="assets/cartas/2C.png"> -->
       </div>
     </div>
@@ -81,10 +80,49 @@
           id="btnCerrarModal"
           onclick="cerrarModal()"
         >
-          Close
+          Cerrar
         </button>
       </div>
     </div>
+  </div>
+</div>
+<div
+  id="contenedorCargando"
+  style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
+>
+  <div id="cargando" style="text-align: center">
+    <p style="font-size: 20px; font-weight: bold; color: #333">
+      Esperando a rival...
+    </p>
+    <img src="./cliente/img/load-8510_256.gif" alt="Cargando..." />
+    <br />
+    <button
+      id="btnEliminarPartida"
+      onclick="cancelarPartida()"
+      style="
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 3px;
+      "
+    >
+      Cancelar
+    </button>
   </div>
 </div>
 
@@ -172,5 +210,19 @@
     if (modal) {
       modal.style.display = "none";
     }
+  }
+    window.onload = function() {
+        if (tipoPartida === "multijugador") {
+            document.getElementById('contenedorCargando').style.display = 'flex';
+        }
+    };
+  function mostrarCargando() {
+    // Muestra el contenedor de carga
+    document.getElementById("contenedorCargando").style.display = "flex";
+    // document.getElementById('contenedorCargando').style.display = 'none'; para ocultarlo
+  }
+  function cancelarPartida() {
+    // Oculta el contenedor de carga
+    document.getElementById("contenedorCargando").style.display = "none";
   }
 </script>

@@ -13,14 +13,17 @@ function ClienteWS() {
     this.socket.on("partidaCreada", function (datos) {
       ws.codigo = datos.codigo;
       $("#miHojaDeEstilos").prop("disabled", false);
-      //Mostrar esperando a rival
       cw.limpiar();
       cli.obtenerTodasPartidas()
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
         cli.actualizarInformacionJugador(datos.codigo);
-        // $("#codigo-partida").text("Código de la partida: " + datos.codigo);
         $("#modalCrearPartidaIndividual").show();
         $("#btnAbandonar").on("click", function () {
+          ws.abandonarPartida();
+          cw.limpiar();
+          cw.mostrarJuego();
+        });
+        $("#btnEliminarPartida").on("click", function () {
           ws.abandonarPartida();
           cw.limpiar();
           cw.mostrarJuego();
@@ -29,6 +32,12 @@ function ClienteWS() {
     });
     this.socket.on("todasPartidas", function (lista) {
       cli.todasPartidas = lista;
+      let partidaActual = lista.find(partida => partida.codigo === ws.codigo);
+      if (partidaActual) {
+        console.log("actual",partidaActual)
+        cli.actualizarInformacionJugador(partidaActual.codigo);
+    }
+
     });
     this.socket.on("listaPartidas", function (lista) {
       cli.partidas = lista;
@@ -38,10 +47,12 @@ function ClienteWS() {
     this.socket.on("unidoPartida", function (datos) {
       ws.codigo = datos.codigo;
       cw.limpiar();
-      // cli.actualizarInformacionJugador(datos.codigo)
+      cli.obtenerTodasPartidas()
+      
       $("#contenidoJuego").load("/cliente/blackjack.html", function () {
         console.log(datos.codigo)
-        cli.actualizarInformacionJugador(datos.codigo);
+        cli.actualizarInformacionJugador(datos.codigo)
+        document.getElementById('contenedorCargando').style.display = 'none';
         $("#modalCrearPartidaIndividual").show();
         $("#btnAbandonar").on("click", function () {
           ws.abandonarPartida();
@@ -54,6 +65,10 @@ function ClienteWS() {
       ws.codigo = undefined; // el pone cli
       //enviarle a home
     });
+    this.socket.on("partidaLista", function(datos) {
+      document.getElementById('contenedorCargando').style.display = 'none';
+    });
+    
   };
   this.crearPartida = function () {
     this.socket.emit("crearPartida", {
@@ -84,9 +99,7 @@ function ClienteWS() {
 
   this.actualizarInformacionJugador = function (codigo) {
     this.todasPartidas.forEach((partida) => {
-      console.log(this.todasPartidas)
         if (partida.codigo == codigo) {
-          console.log("estoy", partida)
             document.getElementById("nombreJugador1").innerHTML =
                 partida.jugadores[0].email || "Jugador 1";
             if (partida.jugadores.length == 2) {

@@ -49,7 +49,7 @@ function ControlWeb() {
     $("#fmRegistro").remove();
     $("#partidasDisponibles").remove();
     $("#blackjack").remove();
-    $("#tablaLogins").remove();
+    $("#container-logs").remove();
     $("#miHojaDeEstilos").prop("disabled", true);
   };
   this.mostrarRegistro = function () {
@@ -91,6 +91,7 @@ function ControlWeb() {
   }
 
   this.mostrarJuego = function () {
+    if (!$.cookie("email")) return true;
     this.limpiar();
     $("#juego").load("./cliente/juego.html", function () {
       $("#btnCrearPartida").on("click", function () {
@@ -109,11 +110,11 @@ function ControlWeb() {
   };
   function crearPartida(tipoPartida) {
     if (tipoPartida === "individual") {
-      ws.tipoPartida="individual"
-      ws.crearPartida()
+      ws.tipoPartida = "individual";
+      ws.crearPartida();
     } else {
-      ws.tipoPartida="multijugador"
-      ws.crearPartida()
+      ws.tipoPartida = "multijugador";
+      ws.crearPartida();
     }
   }
   this.mostrarLogs = function () {

@@ -64,7 +64,7 @@ describe("El sistema...", function () {
     expect(res).toBe(2);
   });
 
-  xdescribe("Métodos que acceden a datos",function(){
+  describe("Métodos que acceden a datos",function(){
     let usrTest={"email":"test@test.es","password":"test","nick":"test"}
     beforeEach(function(done){
       sistema.cad.conectar(function(){

@@ -32,6 +32,7 @@ function ServidorWS() {
           socket.join(codigo);
         }
         srv.enviarAlRemitente(socket, "unidoPartida", { codigo: codigo });
+        socket.to(codigo).emit("partidaLista", { codigo: codigo });
         let lista = sistema.obtenerPartidasDisponibles();
         let todas = sistema.obtenerTodasPartidas()
         //srv.enviarATodosMenosRemitente(socket, "listaPartidas", lista);
